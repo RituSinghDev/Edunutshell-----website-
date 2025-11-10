@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Lottie from "lottie-react";
+import handScrollsAnimation from "@/Hand scrolls.json";
 
 interface Course {
   _id: string;
@@ -146,14 +148,13 @@ export default function CoursesPage() {
               </p>
             </div>
 
-            {/* Right Image */}
+            {/* Right Animation */}
             <div className="flex justify-center lg:justify-end py-4">
-              <div className="w-80 h-80 sm:w-96 sm:h-96 rounded-full overflow-hidden bg-white">
-                <img
-                  src="/courses.jpg"
-                  alt="Courses"
-                  className="w-full h-full object-cover object-center"
-                  style={{ objectPosition: '30% center' }}
+              <div className="w-80 h-80 sm:w-96 sm:h-96">
+                <Lottie 
+                  animationData={handScrollsAnimation}
+                  loop={true}
+                  className="w-full h-full"
                 />
               </div>
             </div>
