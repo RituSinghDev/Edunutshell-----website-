@@ -71,42 +71,27 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-6 text-white">Quick Links</h3>
             <ul className="space-y-3">
               <li>
-                <Link href="/about" className="text-gray-400 hover:text-white transition-colors flex items-center group">
-                  <svg className="w-4 h-4 mr-2 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+                <Link href="/about" className="text-gray-400 hover:text-white transition-colors">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/courses" className="text-gray-400 hover:text-white transition-colors flex items-center group">
-                  <svg className="w-4 h-4 mr-2 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+                <Link href="/courses" className="text-gray-400 hover:text-white transition-colors">
                   Courses
                 </Link>
               </li>
               <li>
-                <Link href="/partners" className="text-gray-400 hover:text-white transition-colors flex items-center group">
-                  <svg className="w-4 h-4 mr-2 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+                <Link href="/partners" className="text-gray-400 hover:text-white transition-colors">
                   Partners
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-gray-400 hover:text-white transition-colors flex items-center group">
-                  <svg className="w-4 h-4 mr-2 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+                <Link href="/contact" className="text-gray-400 hover:text-white transition-colors">
                   Contact
                 </Link>
               </li>
               <li>
-                <Link href="/placements" className="text-gray-400 hover:text-white transition-colors flex items-center group">
-                  <svg className="w-4 h-4 mr-2 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+                <Link href="/placements" className="text-gray-400 hover:text-white transition-colors">
                   Placements
                 </Link>
               </li>
@@ -118,42 +103,27 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-6 text-white">Legal</h3>
             <ul className="space-y-3">
               <li>
-                <Link href="/faq" className="text-gray-400 hover:text-white transition-colors flex items-center group">
-                  <svg className="w-4 h-4 mr-2 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+                <Link href="/faq" className="text-gray-400 hover:text-white transition-colors">
                   FAQ
                 </Link>
               </li>
               <li>
-                <Link href="/privacy-policy" className="text-gray-400 hover:text-white transition-colors flex items-center group">
-                  <svg className="w-4 h-4 mr-2 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+                <Link href="/privacy-policy" className="text-gray-400 hover:text-white transition-colors">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/refund-policy" className="text-gray-400 hover:text-white transition-colors flex items-center group">
-                  <svg className="w-4 h-4 mr-2 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+                <Link href="/refund-policy" className="text-gray-400 hover:text-white transition-colors">
                   Refund Policy
                 </Link>
               </li>
               <li>
-                <Link href="/terms-and-conditions" className="text-gray-400 hover:text-white transition-colors flex items-center group">
-                  <svg className="w-4 h-4 mr-2 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+                <Link href="/terms-and-conditions" className="text-gray-400 hover:text-white transition-colors">
                   Terms & Conditions
                 </Link>
               </li>
               <li>
-                <Link href="/cookie-policy" className="text-gray-400 hover:text-white transition-colors flex items-center group">
-                  <svg className="w-4 h-4 mr-2 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+                <Link href="/cookie-policy" className="text-gray-400 hover:text-white transition-colors">
                   Cookie Policy
                 </Link>
               </li>

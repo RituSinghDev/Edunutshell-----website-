@@ -1,15 +1,29 @@
 "use client";
 
 import { useState } from "react";
-import { X } from "lucide-react";
 
-interface CollegeMoUFormProps {
-  isOpen: boolean;
-  onClose: () => void;
+interface FormData {
+  collegeName: string;
+  collegeAddress: string;
+  cityState: string;
+  website: string;
+  contactName: string;
+  designation: string;
+  email: string;
+  phone: string;
+  mouInterest: string;
+  domains: string[];
+  studentsCount: string;
+  mode: string;
+  tpoCell: string;
+  workshops: string;
+  draftMou: string;
+  comments: string;
+  confirmation: boolean;
 }
 
-export default function CollegeMoUForm({ isOpen, onClose }: CollegeMoUFormProps) {
-  const [formData, setFormData] = useState({
+export default function CollegeMoUForm() {
+  const [formData, setFormData] = useState<FormData>({
     collegeName: "",
     collegeAddress: "",
     cityState: "",
@@ -19,7 +33,7 @@ export default function CollegeMoUForm({ isOpen, onClose }: CollegeMoUFormProps)
     email: "",
     phone: "",
     mouInterest: "",
-    domains: [] as string[],
+    domains: [],
     studentsCount: "",
     mode: "",
     tpoCell: "",
@@ -30,9 +44,9 @@ export default function CollegeMoUForm({ isOpen, onClose }: CollegeMoUFormProps)
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const target = e.target as HTMLInputElement;
-    const { name, value, type, checked } = target;
-
+    const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
+    
     if (type === "checkbox" && name === "domains") {
       setFormData((prev) => ({
         ...prev,
@@ -47,7 +61,7 @@ export default function CollegeMoUForm({ isOpen, onClose }: CollegeMoUFormProps)
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!formData.confirmation) {
       alert("Please confirm before submitting.");
@@ -63,6 +77,7 @@ export default function CollegeMoUForm({ isOpen, onClose }: CollegeMoUFormProps)
 
       if (res.ok) {
         alert("Form submitted successfully!");
+        // 🧹 Clear form fields
         setFormData({
           collegeName: "",
           collegeAddress: "",
@@ -82,10 +97,8 @@ export default function CollegeMoUForm({ isOpen, onClose }: CollegeMoUFormProps)
           comments: "",
           confirmation: false,
         });
-        onClose();
-      } else {
-        alert("Error submitting form");
-      }
+        window.scrollTo(0, 0);
+      } else alert("Error submitting form");
     } catch (err) {
       console.error(err);
       alert("Error submitting form");
@@ -140,211 +153,146 @@ export default function CollegeMoUForm({ isOpen, onClose }: CollegeMoUFormProps)
     "Web 3.0",
   ];
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 overflow-y-auto">
-      <div className="relative w-full max-w-4xl bg-white rounded-2xl shadow-2xl my-8">
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 transition z-10"
-          aria-label="Close form"
-        >
-          <X className="h-6 w-6 text-gray-600" />
-        </button>
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 via-white to-gray-50 py-12 px-4 text-gray-800">
+      <form
+        onSubmit={handleSubmit}
+        className="max-w-4xl mx-auto bg-white/90 backdrop-blur-md shadow-2xl rounded-2xl p-8 space-y-8 border border-gray-200"
+      >
+        <h1 className="text-3xl font-semibold text-center text-gray-800 mb-2">
+          College MoU Collaboration Form
+        </h1>
+        <p className="text-center text-gray-500 mb-6">
+          Please fill out the details below. Fields marked with{" "}
+          <span className="text-red-600">*</span> are mandatory.
+        </p>
 
-        <form
-          onSubmit={handleSubmit}
-          className="p-8 space-y-8 max-h-[90vh] overflow-y-auto"
-        >
-          <div>
-            <h1 className="text-3xl font-semibold text-center text-gray-800 mb-2">
-              College MoU Collaboration Form
-            </h1>
-            <p className="text-center text-gray-500 mb-6">
-              Please fill out the details below. Fields marked with{" "}
-              <span className="text-red-600">*</span> are mandatory.
-            </p>
-          </div>
+        {/* Basic Info */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Input label="College Name" name="collegeName" value={formData.collegeName} onChange={handleChange} required />
+          <Input label="College Address" name="collegeAddress" value={formData.collegeAddress} onChange={handleChange} required />
+          <Input label="City / State" name="cityState" value={formData.cityState} onChange={handleChange} required />
+          <Input label="College Website (if available)" name="website" value={formData.website} onChange={handleChange} required={false} />
+          <Input label="Point of Contact (Principal / TPO / HoD / Faculty)" name="contactName" value={formData.contactName} onChange={handleChange} required />
+          <Input label="Designation / Department" name="designation" value={formData.designation} onChange={handleChange} required />
+          <Input label="Official Email ID" name="email" value={formData.email} onChange={handleChange} required type="email" />
+          <Input label="Contact Number" name="phone" value={formData.phone} onChange={handleChange} required type="tel" />
+        </div>
 
-          {/* Basic Info */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Input
-              label="College Name"
-              name="collegeName"
-              value={formData.collegeName}
-              onChange={handleChange}
-              required
-            />
-            <Input
-              label="College Address"
-              name="collegeAddress"
-              value={formData.collegeAddress}
-              onChange={handleChange}
-              required
-            />
-            <Input
-              label="City / State"
-              name="cityState"
-              value={formData.cityState}
-              onChange={handleChange}
-              required
-            />
-            <Input
-              label="College Website (if available)"
-              name="website"
-              value={formData.website}
-              onChange={handleChange}
-            />
-            <Input
-              label="Point of Contact (Principal / TPO / HoD / Faculty)"
-              name="contactName"
-              value={formData.contactName}
-              onChange={handleChange}
-              required
-            />
-            <Input
-              label="Designation / Department"
-              name="designation"
-              value={formData.designation}
-              onChange={handleChange}
-              required
-            />
-            <Input
-              label="Official Email ID"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              type="email"
-            />
-            <Input
-              label="Contact Number"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              required
-              type="tel"
-            />
-          </div>
+        {/* MoU Interest */}
+        <Select
+          label="Is your college interested in signing an MoU with Edunutshell?"
+          name="mouInterest"
+          value={formData.mouInterest}
+          onChange={handleChange}
+          options={[
+            "Yes, we are ready to collaborate",
+            "Only Branch / Department is Interested",
+            "Interested, need more details",
+            "Not at the moment",
+          ]}
+          required
+        />
 
-          {/* MoU Interest */}
-          <Select
-            label="Is your college interested in signing an MoU with Edunutshell?"
-            name="mouInterest"
-            value={formData.mouInterest}
-            onChange={handleChange}
-            options={[
-              "Yes, we are ready to collaborate",
-              "Only Branch / Department is Interested",
-              "Interested, need more details",
-              "Not at the moment",
-            ]}
-            required
-          />
-
-          {/* Domains */}
-          <div>
-            <label className="block font-semibold mb-2">
-              Which domains would your students be most interested in?{" "}
-              <span className="text-red-600">*</span>
-            </label>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-72 overflow-y-auto border rounded-xl p-4 bg-gray-50 hover:bg-gray-100 transition">
-              {domainOptions.map((d) => (
-                <label key={d} className="flex items-center space-x-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    name="domains"
-                    value={d}
-                    checked={formData.domains.includes(d)}
-                    onChange={handleChange}
-                    className="accent-blue-600"
-                  />
-                  <span className="text-sm">{d}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-
-          <Select
-            label="Approximate number of students who may participate / benefit"
-            name="studentsCount"
-            value={formData.studentsCount}
-            onChange={handleChange}
-            options={["01–50", "50–100", "100–200", "200–500", "500+"]}
-            required
-          />
-
-          <Select
-            label="Preferred Mode of Assessment"
-            name="mode"
-            value={formData.mode}
-            onChange={handleChange}
-            options={["Virtual (Online)", "Hybrid (Online + Campus Sessions)"]}
-            required
-          />
-
-          <Select
-            label="Does your college have a Training & Placement Cell?"
-            name="tpoCell"
-            value={formData.tpoCell}
-            onChange={handleChange}
-            options={["Yes", "No", "In progress"]}
-            required
-          />
-
-          <Select
-            label="Would your college be open to hosting Edunutshell Workshops / Seminars?"
-            name="workshops"
-            value={formData.workshops}
-            onChange={handleChange}
-            options={[
-              "Yes, we'd love to",
-              "Possibly, in the next semester",
-              "Not currently",
-            ]}
-            required
-          />
-
-          <Select
-            label="Would you like to receive an official draft MoU and proposal document?"
-            name="draftMou"
-            value={formData.draftMou}
-            onChange={handleChange}
-            options={["Yes", "No"]}
-            required
-          />
-
-          <TextArea
-            label="Any specific expectations or comments regarding this collaboration?"
-            name="comments"
-            value={formData.comments}
-            onChange={handleChange}
-          />
-
-          <label className="flex items-start space-x-3 bg-gray-50 p-3 rounded-xl border">
-            <input
-              type="checkbox"
-              name="confirmation"
-              checked={formData.confirmation}
-              onChange={handleChange}
-              required
-              className="mt-1 accent-blue-600"
-            />
-            <span className="text-sm">
-              I acknowledge that the details provided above are true and express our
-              interest in exploring an MoU collaboration with Edunutshell.
-            </span>
+        {/* Domains - FIXED SECTION */}
+        <div>
+          <label className="block font-semibold mb-2">
+            Which domains would your students be most interested in?{" "}
+            <span className="text-red-600">*</span>
           </label>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 max-h-80 overflow-y-auto border rounded-xl p-4 bg-gray-50">
+            {domainOptions.map((d) => (
+              <label
+                key={d}
+                className="flex items-start space-x-2 cursor-pointer text-sm break-words"
+              >
+                <input
+                  type="checkbox"
+                  name="domains"
+                  value={d}
+                  checked={formData.domains.includes(d)}
+                  onChange={handleChange}
+                  className="mt-1 accent-blue-600 shrink-0"
+                />
+                <span className="flex-1 leading-snug">{d}</span>
+              </label>
+            ))}
+          </div>
+        </div>
 
-          <button
-            type="submit"
-            className="w-full py-3 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition duration-200 focus:ring-4 focus:ring-blue-300"
-          >
-            Submit Form
-          </button>
-        </form>
-      </div>
+        <Select
+          label="Approximate number of students who may participate / benefit"
+          name="studentsCount"
+          value={formData.studentsCount}
+          onChange={handleChange}
+          options={["01–50", "50–100", "100–200", "200–500", "500+"]}
+          required
+        />
+
+        <Select
+          label="Preferred Mode of Assessment"
+          name="mode"
+          value={formData.mode}
+          onChange={handleChange}
+          options={["Virtual (Online)", "Hybrid (Online + Campus Sessions)"]}
+          required
+        />
+
+        <Select
+          label="Does your college have a Training & Placement Cell?"
+          name="tpoCell"
+          value={formData.tpoCell}
+          onChange={handleChange}
+          options={["Yes", "No", "In progress"]}
+          required
+        />
+
+        <Select
+          label="Would your college be open to hosting Edunutshell Workshops / Seminars?"
+          name="workshops"
+          value={formData.workshops}
+          onChange={handleChange}
+          options={["Yes, we'd love to", "Possibly, in the next semester", "Not currently"]}
+          required
+        />
+
+        <Select
+          label="Would you like to receive an official draft MoU and proposal document?"
+          name="draftMou"
+          value={formData.draftMou}
+          onChange={handleChange}
+          options={["Yes", "No"]}
+          required
+        />
+
+        <TextArea
+          label="Any specific expectations or comments regarding this collaboration?"
+          name="comments"
+          value={formData.comments}
+          onChange={handleChange}
+        />
+
+        <label className="flex items-start space-x-3 bg-gray-50 p-3 rounded-xl border">
+          <input
+            type="checkbox"
+            name="confirmation"
+            checked={formData.confirmation}
+            onChange={handleChange}
+            required
+            className="mt-1 accent-blue-600"
+          />
+          <span className="text-sm">
+            I acknowledge that the details provided above are true and express our interest in exploring an MoU collaboration with Edunutshell.
+          </span>
+        </label>
+
+        <button
+          type="submit"
+          className="w-full py-3 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition duration-200 focus:ring-4 focus:ring-blue-300"
+        >
+          Submit Form
+        </button>
+      </form>
     </div>
   );
 }
@@ -359,7 +307,7 @@ interface InputProps {
   required?: boolean;
 }
 
-function Input({ label, name, value, onChange, type = "text", required }: InputProps) {
+function Input({ label, name, value, onChange, type = "text", required = false }: InputProps) {
   return (
     <div>
       <label className="block font-semibold mb-1">
@@ -386,7 +334,7 @@ interface SelectProps {
   required?: boolean;
 }
 
-function Select({ label, name, value, onChange, options, required }: SelectProps) {
+function Select({ label, name, value, onChange, options, required = false }: SelectProps) {
   return (
     <div>
       <label className="block font-semibold mb-1">

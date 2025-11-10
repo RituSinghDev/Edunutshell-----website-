@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useMemo } from "react";
-import { Briefcase, Users, Award, ArrowRight } from "lucide-react";
+import { Briefcase, Users, Award, Globe, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
@@ -20,7 +20,7 @@ interface AnimatedStat {
 
 // Stable values defined outside or with useMemo
 const targetValues = [500, 100, 50, 10];
-const icons = [Users, Briefcase, Award, ArrowRight];
+const icons = [Users, Briefcase, Award, Globe];
 const labels = ["Students Placed", "Companies", "Highest Package", "Countries"];
 
 const initialAnimatedStats: AnimatedStat[] = targetValues.map((_, i) => ({
@@ -37,6 +37,9 @@ const Placements = () => {
   const fetchedOnce = useRef(false);
   const [animatedStats, setAnimatedStats] = useState<AnimatedStat[]>(initialAnimatedStats);
   const animationRan = useRef(false);
+
+  // NEW: paused state for testimonials marquee
+  const [isPaused, setIsPaused] = useState(false);
 
   // Stable company values with reliable logos
   const companies = useMemo(
@@ -57,13 +60,15 @@ const Placements = () => {
         color: "bg-yellow-50 border-yellow-200",
       },
       {
+        // ✅ UPDATED INFOSYS LINK (PNG from Wikimedia's thumbnail service)
         name: "Infosys",
-        logo: "https://companieslogo.com/img/orig/INFY_BIG-1c0b81f5.png?t=1726507089",
+        logo: "https://upload.wikimedia.org/wikipedia/en/thumb/9/91/Infosys_logo.svg/100px-Infosys_logo.svg.png",
         color: "bg-sky-50 border-sky-200",
       },
       {
+        // ✅ UPDATED TCS LINK (PNG from Wikimedia's thumbnail service)
         name: "TCS",
-        logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Tata_Consultancy_Services_Logo.svg/320px-Tata_Consultancy_Services_Logo.svg.png",
+        logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/TATA_Consultancy_Services_Logo.svg/100px-TATA_Consultancy_Services_Logo.svg.png",
         color: "bg-purple-50 border-purple-200",
       },
       {
@@ -294,13 +299,19 @@ const Placements = () => {
           <h2 className="text-4xl font-bold mb-12">Student Testimonials</h2>
 
           {testimonials.length > 0 ? (
-            <div className="relative w-full overflow-hidden">
+            // NOTE: added onMouseEnter/onMouseLeave to reliably toggle pause
+            <div
+              className="relative w-full overflow-hidden"
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+            >
               <div
                 className="flex gap-8 animate-marquee"
                 style={{
                   animation: `marquee ${
                     isMobile ? testimonials.length * 8 : testimonials.length * 14
                   }s linear infinite`,
+                  animationPlayState: isPaused ? "paused" : "running",
                 }}
               >
                 {[...testimonials, ...testimonials].map((testimonial, index) => {
@@ -310,9 +321,9 @@ const Placements = () => {
                   return (
                     <Card
                       key={uniqueId}
-                      className="min-w-[300px] sm:min-w-[360px] md:min-w-[400px]
+                      className="max-w-[320px] sm:min-w-[300px] md:min-w-[360px]
                         bg-white/10 border border-white/20 rounded-2xl backdrop-blur-lg
-                        hover:bg-white/20 transition-all duration-300 flex flex-col overflow-hidden p-0" // Added p-0 to remove card padding
+                        hover:bg-white/20 transition-all duration-300 flex flex-col overflow-hidden p-0"
                     >
                       {shouldShowImage ? (
                         <div className="w-full h-[230px] overflow-hidden">
@@ -332,13 +343,12 @@ const Placements = () => {
                         </div>
                       )}
 
-                      <div className="p-6 flex flex-col justify-between flex-1">
+                      <div className="p-4 flex flex-col justify-between flex-1">
                         <h3 className="text-xl font-semibold mb-2">{testimonial.name}</h3>
                         <p className="italic text-blue-100 mb-4 leading-relaxed line-clamp-3">
                           &quot;{testimonial.message}&quot;
                         </p>
 
-                        {/* FIXED: Show ALL social handles without filtering */}
                         {testimonial.socialHandle && (
                           <a
                             href={testimonial.socialHandle}
@@ -377,9 +387,6 @@ const Placements = () => {
             width: max-content;
             animation-timing-function: linear;
             animation-iteration-count: infinite;
-          }
-          .animate-marquee:hover {
-            animation-play-state: paused;
           }
         `}</style>
       </section>

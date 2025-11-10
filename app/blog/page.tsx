@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Search, Calendar, ArrowRight, TrendingUp, X } from "lucide-react";
-// 1. ➡ IMPORT useRouter from next/navigation
+import { Search, Calendar, ArrowRight, TrendingUp } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,14 +24,12 @@ interface BlogPost {
 }
 
 function BlogPage() {
-  // 2. ➡ INITIALIZE ROUTER
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
-  // 3. ❌ REMOVED: selectedPost state
-  // const [selectedPost, setSelectedPost] = useState(null);
+  const [sortOrder, setSortOrder] = useState("newest");
   const fadeRefs = useRef<(HTMLElement | null)[]>([]);
 
   const getImageUrl = (url?: string) =>
@@ -40,15 +37,11 @@ function BlogPage() {
       ? url
       : "https://images.pexels.com/photos/620337/pexels-photo-620337.jpeg";
 
-  // 4. ✅ UPDATED: handleCardClick redirects and passes the full post data
   const handleCardClick = (post: BlogPost) => {
-    // Stringify the post object and encode it for the URL to pass the data
     const postDataString = encodeURIComponent(JSON.stringify(post));
-    // Redirect to the detail page, passing the full post data in a query parameter
     router.push(`/blog/${post._id}?data=${postDataString}`);
   };
 
-  // ✅ Fetch blogs once
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
@@ -66,7 +59,6 @@ function BlogPage() {
     fetchBlogs();
   }, []);
 
-  // ✅ Fade-in animation using IntersectionObserver
   const observeElements = useCallback(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -88,28 +80,38 @@ function BlogPage() {
     observeElements();
   }, [filteredPosts, observeElements]);
 
-  // ✅ Filter posts when searching
+  // ✅ Filter + sort logic combined
   useEffect(() => {
+    let posts = [...blogPosts];
     const query = searchQuery.trim().toLowerCase();
-    if (!query) setFilteredPosts(blogPosts);
-    else {
-      setFilteredPosts(
-        blogPosts.filter((post) => {
-          const tags = post.tags?.join(" ").toLowerCase() || "";
-          return (
-            post.title.toLowerCase().includes(query) ||
-            post.body.toLowerCase().includes(query) ||
-            tags.includes(query)
-          );
-        })
-      );
-    }
-  }, [searchQuery, blogPosts]);
 
-  // ❌ REMOVED: useEffect to disable scroll (since modal/selectedPost is removed)
-  // useEffect(() => {
-  //   document.body.style.overflow = selectedPost ? "hidden" : "auto";
-  // }, [selectedPost]);
+    if (query) {
+      posts = posts.filter((post) => {
+        const tags = post.tags?.join(" ").toLowerCase() || "";
+        return (
+          post.title.toLowerCase().includes(query) ||
+          post.body.toLowerCase().includes(query) ||
+          tags.includes(query)
+        );
+      });
+    }
+
+    // ✅ Sorting logic with alphabetical options
+    posts.sort((a, b) => {
+      if (sortOrder === "newest") {
+        return new Date(b.eventDate).getTime() - new Date(a.eventDate).getTime();
+      } else if (sortOrder === "oldest") {
+        return new Date(a.eventDate).getTime() - new Date(b.eventDate).getTime();
+      } else if (sortOrder === "atoz") {
+        return a.title.localeCompare(b.title);
+      } else if (sortOrder === "ztoa") {
+        return b.title.localeCompare(a.title);
+      }
+      return 0;
+    });
+
+    setFilteredPosts(posts);
+  }, [searchQuery, blogPosts, sortOrder]);
 
   if (loading)
     return (
@@ -122,15 +124,15 @@ function BlogPage() {
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
-      {/* HERO SECTION (Keep as is) */}
-      <section className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 text-white py-20 px-4 sm:px-6 lg:px-8 fade-in">
+      {/* HERO SECTION */}
+      <section className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 text-white py-24 px-4 sm:px-6 lg:px-8 fade-in mt-12 sm:mt-16">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 w-72 h-72 bg-blue-400 rounded-full blur-3xl animate-pulse"></div>
           <div className="absolute bottom-0 right-0 w-72 h-72 bg-indigo-500 rounded-full blur-3xl animate-pulse"></div>
         </div>
 
         <div className="relative max-w-7xl mx-auto text-center">
-          <Badge className="mb-4 bg-blue-600 text-white border-0">
+          <Badge className="mb-6 bg-blue-600 text-white border-0">
             <TrendingUp className="w-4 h-4 mr-1" /> Trending Articles
           </Badge>
 
@@ -150,18 +152,18 @@ function BlogPage() {
             technology, design, business, and more.
           </p>
 
-          {/* Search bar */}
+          {/* ✅ Search bar fix for mobile */}
           <div
-            className="max-w-2xl mx-auto relative opacity-0 translate-y-8 transition-all duration-700 delay-300"
+            className="max-w-2xl mx-auto relative opacity-0 translate-y-8 transition-all duration-700 delay-300 px-2"
             ref={(el) => { fadeRefs.current[2] = el; }}
           >
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5" />
             <Input
               type="text"
-              placeholder="Search articles by title, body or tag..."
+              placeholder="Search by title, body or tag..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-12 pr-4 py-6 text-lg bg-blue-50 border border-gray-200 rounded-full focus:ring-2 focus:ring-blue-600 text-black placeholder:text-gray-500"
+              className="pl-12 pr-4 py-4 sm:py-5 text-base sm:text-lg bg-blue-50 border border-gray-200 rounded-full focus:ring-2 focus:ring-blue-600 text-black placeholder:text-gray-500 w-full"
             />
           </div>
         </div>
@@ -179,13 +181,13 @@ function BlogPage() {
             <div className="relative">
               <select
                 className="bg-blue-50 text-blue-800 border border-blue-200 rounded-lg px-4 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-400"
-                onChange={(e) => {
-                  const sortOrder = e.target.value;
-                  // Placeholder for sorting logic
-                }}
+                value={sortOrder}
+                onChange={(e) => setSortOrder(e.target.value)}
               >
                 <option value="newest">Newest First</option>
                 <option value="oldest">Oldest First</option>
+                <option value="atoz">A → Z (Title)</option>
+                <option value="ztoa">Z → A (Title)</option>
               </select>
             </div>
           </div>
@@ -196,7 +198,7 @@ function BlogPage() {
                 key={post._id}
                 ref={(el) => { fadeRefs.current[idx + 4] = el; }}
                 className="overflow-hidden border border-gray-200 hover:border-blue-300 shadow-md hover:shadow-lg hover:-translate-y-1 cursor-pointer opacity-0 translate-y-1 transition-all duration-700"
-                onClick={() => handleCardClick(post)} // ✅ Uses the redirection logic
+                onClick={() => handleCardClick(post)}
               >
                 <div className="relative w-full overflow-hidden aspect-[16/9] bg-gray-100 flex items-center justify-center">
                   {post.image ? (
@@ -245,7 +247,6 @@ function BlogPage() {
                 </CardHeader>
 
                 <CardFooter className="flex flex-col gap-3">
-                  <div className="flex items-center justify-between text-sm text-gray-600 w-full"></div>
                   <div className="flex items-center justify-between w-full">
                     <span className="text-sm text-gray-600 flex items-center gap-1">
                       <Calendar className="w-3.5 h-3.5" />{" "}
@@ -268,8 +269,6 @@ function BlogPage() {
           )}
         </div>
       </section>
-
-      {/* 5. ❌ REMOVED: The entire modal JSX that previously used selectedPost */}
     </div>
   );
 }
