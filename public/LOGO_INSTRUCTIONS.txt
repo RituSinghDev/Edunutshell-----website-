@@ -1,0 +1,20 @@
+LOGO SETUP INSTRUCTIONS
+========================
+
+Please replace the placeholder logo file with your actual logo:
+
+1. Copy your logo file (edunutshellsidelogo.png) from the parent directory
+2. Paste it here in the public folder
+3. Make sure it's named: edunutshellsidelogo.png
+
+The logo is used in:
+- Navigation bar (components/Navbar.tsx)
+- Footer (components/Footer.tsx)
+
+Recommended logo specifications:
+- Format: PNG with transparent background
+- Dimensions: 180x60 pixels (or similar aspect ratio)
+- File size: Under 100KB for optimal performance
+
+If you have other logo files (Group 12.svg, Group 12.png, Group 7.png), 
+you can also add them here and update the component references as needed.

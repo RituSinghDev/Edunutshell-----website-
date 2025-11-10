@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" fill="none">
+  <g transform="translate(20, 10)">
+    <!-- NASSCOM logo with red color scheme -->
+    <path d="M5 15 L15 5 L15 35 L5 35 Z" fill="#E31837"/>
+    <path d="M20 5 L30 15 L30 35 L20 25 Z" fill="#E31837"/>
+    <text x="40" y="28" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#E31837">NASSCOM</text>
+  </g>
+</svg>
