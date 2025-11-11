@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, ReactNode } from 'react'
+import { useEffect, useRef, ReactNode, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -14,44 +14,66 @@ interface SectionTransitionProps {
 
 export default function SectionTransition({ children, id, className = '' }: SectionTransitionProps) {
   const sectionRef = useRef<HTMLDivElement>(null)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    // Check if mobile viewport
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   useEffect(() => {
     const section = sectionRef.current
     if (!section) return
 
     const ctx = gsap.context(() => {
-      // Main timeline for enter/exit animations
-      const tl = gsap.timeline({
+      gsap.timeline({
         scrollTrigger: {
           trigger: section,
           start: 'top 80%',
-          end: 'bottom 5%',
+          end: isMobile ? 'bottom top' : 'bottom 5%',
           scrub: 1,
           onUpdate: (self) => {
-            // Smooth transitions for both directions
             const progress = self.progress
             
-            // Fade in from bottom (scrolling down)
-            if (progress < 0.1) {
-              gsap.set(section, {
-                opacity: progress / 0.1,
-                y: 40 * (1 - progress / 0.1),
-              })
-            }
-            // Fully visible in middle - extended range
-            else if (progress >= 0.1 && progress <= 0.95) {
-              gsap.set(section, {
-                opacity: 1,
-                y: 0,
-              })
-            }
-            // Fade out to top (scrolling down past section) - only at the very end
-            else if (progress > 0.95) {
-              const fadeProgress = (progress - 0.95) / 0.05
-              gsap.set(section, {
-                opacity: 1 - (fadeProgress * 0.3), // Only fade to 70% opacity
-                y: -20 * fadeProgress,
-              })
+            if (isMobile) {
+              // Mobile: Simple fade in, no fade out
+              if (progress < 0.1) {
+                gsap.set(section, {
+                  opacity: progress / 0.1,
+                  y: 40 * (1 - progress / 0.1),
+                })
+              } else {
+                gsap.set(section, {
+                  opacity: 1,
+                  y: 0,
+                })
+              }
+            } else {
+              // Desktop: Original behavior with fade out
+              if (progress < 0.1) {
+                gsap.set(section, {
+                  opacity: progress / 0.1,
+                  y: 40 * (1 - progress / 0.1),
+                })
+              } else if (progress >= 0.1 && progress <= 0.95) {
+                gsap.set(section, {
+                  opacity: 1,
+                  y: 0,
+                })
+              } else if (progress > 0.95) {
+                const fadeProgress = (progress - 0.95) / 0.05
+                gsap.set(section, {
+                  opacity: 1 - (fadeProgress * 0.3),
+                  y: -20 * fadeProgress,
+                })
+              }
             }
           },
         },
@@ -59,7 +81,7 @@ export default function SectionTransition({ children, id, className = '' }: Sect
     }, section)
 
     return () => ctx.revert()
-  }, [])
+  }, [isMobile])
 
   return (
     <div
@@ -68,7 +90,7 @@ export default function SectionTransition({ children, id, className = '' }: Sect
       className={`section-transition ${className}`}
       style={{
         willChange: 'transform, opacity',
-        overflow: 'hidden',
+        overflow: isMobile ? 'visible' : 'hidden',
         width: '100%',
       }}
     >

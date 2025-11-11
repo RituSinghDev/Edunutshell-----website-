@@ -252,7 +252,7 @@ export default function Testimonials() {
                   </div>
 
                   {/* Center Card */}
-                  <div className="w-full md:w-2/5 flex-shrink-0">
+                  <div className="w-4/5 md:w-2/5 flex-shrink-0">
                     <div 
                       key={`center-${currentIndex}`}
                       className="relative bg-white/20 backdrop-blur-lg rounded-2xl p-5 md:p-6 border border-white/60 shadow-2xl bg-white/30 flex flex-col transition-all duration-500 scale-100 opacity-100 animate-in fade-in zoom-in-95"
