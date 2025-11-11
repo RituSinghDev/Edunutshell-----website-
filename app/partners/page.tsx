@@ -5,9 +5,9 @@ import {
   Building2,
   GraduationCap,
   Users,
-  Award,
   CheckCircle,
   ArrowRight,
+  Globe,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -16,7 +16,7 @@ import CollegeMoUForm from "@/components/CollegeMoUForm";
 const Partners = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const fadeRefs = useRef<(HTMLElement | null)[]>([]);
-  const heroRefs = useRef<(HTMLElement | null)[]>([]); // separate refs for hero animation
+  const heroRefs = useRef<(HTMLElement | null)[]>([]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -24,6 +24,28 @@ const Partners = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("fade-in-visible");
+            
+            // Animate numbers if data-count is present
+            const numEl = entry.target.querySelector("[data-count]") as HTMLElement;
+            if (numEl && !numEl.classList.contains("counted")) {
+              numEl.classList.add("counted");
+              const end = parseInt(numEl.dataset.target || "0");
+              const suffix = numEl.dataset.suffix || "";
+              let start = 0;
+              const duration = 2000;
+              const stepTime = Math.max(10, Math.floor(duration / end));
+              const step = Math.ceil(end / (duration / stepTime));
+              
+              const timer = setInterval(() => {
+                start += step;
+                if (start >= end) {
+                  start = end;
+                  clearInterval(timer);
+                }
+                numEl.textContent = start.toLocaleString() + suffix;
+              }, stepTime);
+            }
+            
             observer.unobserve(entry.target);
           }
         });
@@ -31,7 +53,6 @@ const Partners = () => {
       { threshold: 0.2 }
     );
 
-    // Observe hero elements separately for staggered fade-in
     heroRefs.current.forEach((el, i) => {
       if (el) {
         (el as HTMLElement).style.transitionDelay = `${i * 150}ms`;
@@ -39,7 +60,6 @@ const Partners = () => {
       }
     });
 
-    // Observe all other sections
     fadeRefs.current.forEach((el) => el && observer.observe(el));
 
     return () => observer.disconnect();
@@ -100,7 +120,7 @@ const Partners = () => {
     { value: "50+", label: "Partner Institutions", icon: Building2 },
     { value: "10,000+", label: "Students Benefited", icon: Users },
     { value: "200+", label: "Joint Programs", icon: GraduationCap },
-    { value: "15+", label: "Countries", icon: Award }
+    { value: "15+", label: "Countries", icon: Globe }
   ];
 
   return (
@@ -149,8 +169,13 @@ const Partners = () => {
                 <div className="flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mx-auto mb-4">
                   <stat.icon className="h-8 w-8 text-blue-600" />
                 </div>
-                <div className="text-4xl font-bold text-gray-900 mb-2">
-                  {stat.value}
+                <div
+                  data-count
+                  data-target={stat.value.replace(/\D/g, "")}
+                  data-suffix={stat.value.match(/\D+$/)?.[0] || ""}
+                  className="text-4xl font-bold text-gray-900 mb-2"
+                >
+                  0
                 </div>
                 <div className="text-gray-600">{stat.label}</div>
               </Card>
@@ -180,7 +205,7 @@ const Partners = () => {
               <Card
                 key={index}
                 ref={(el) => { fadeRefs.current[stats.length + 1 + index] = el; }}
-                className={`overflow-hidden border-2 ${partner.color} opacity-0 md:translate-y-2 transition-all duration-700 ease-out hover:shadow-xl md:hover:-translate-y-1`}
+                className={`overflow-hidden border-2 ${partner.color} opacity-0 translate-y-2 transition-all duration-700 ease-out hover:shadow-xl hover:-translate-y-1`}
               >
                 <div className="p-6 border-b-2">
                   <div className="flex items-center justify-center w-20 h-20 bg-white rounded-full mx-auto mb-4 shadow-md">

@@ -23,11 +23,11 @@ interface FormData {
 }
 
 interface CollegeMoUFormProps {
-  isOpen?: boolean;
-  onClose?: () => void;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
-export default function CollegeMoUForm({ isOpen = true, onClose }: CollegeMoUFormProps = {}) {
+export default function CollegeMoUForm({ isOpen, onClose }: CollegeMoUFormProps) {
   const [formData, setFormData] = useState<FormData>({
     collegeName: "",
     collegeAddress: "",
@@ -102,11 +102,7 @@ export default function CollegeMoUForm({ isOpen = true, onClose }: CollegeMoUFor
           comments: "",
           confirmation: false,
         });
-        if (onClose) {
-          onClose();
-        } else {
-          window.scrollTo(0, 0);
-        }
+        onClose();
       } else alert("Error submitting form");
     } catch (err) {
       console.error(err);
@@ -165,45 +161,53 @@ export default function CollegeMoUForm({ isOpen = true, onClose }: CollegeMoUFor
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 overflow-y-auto">
-      <div className="relative w-full max-w-4xl my-8">
-        {onClose && (
-          <button
-            onClick={onClose}
-            className="absolute -top-2 -right-2 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition"
-            aria-label="Close"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        )}
-        <form
-          onSubmit={handleSubmit}
-          className="bg-white/95 backdrop-blur-md shadow-2xl rounded-2xl p-8 space-y-8 border border-gray-200"
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+      onClick={onClose}
+    >
+      <div 
+        className="relative w-full max-w-4xl bg-white rounded-2xl shadow-2xl max-h-[90vh] overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="sticky top-0 right-0 float-right m-4 bg-red-500 hover:bg-red-600 text-white rounded-full p-2 shadow-lg transition z-20"
+          aria-label="Close form"
         >
-        <h1 className="text-3xl font-semibold text-center text-gray-800 mb-2">
-          College MoU Collaboration Form
-        </h1>
-        <p className="text-center text-gray-500 mb-6">
-          Please fill out the details below. Fields marked with{" "}
-          <span className="text-red-600">*</span> are mandatory.
-        </p>
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
 
-        {/* Basic Info */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Input label="College Name" name="collegeName" value={formData.collegeName} onChange={handleChange} required />
-          <Input label="College Address" name="collegeAddress" value={formData.collegeAddress} onChange={handleChange} required />
-          <Input label="City / State" name="cityState" value={formData.cityState} onChange={handleChange} required />
-          <Input label="College Website (if available)" name="website" value={formData.website} onChange={handleChange} required={false} />
-          <Input label="Point of Contact (Principal / TPO / HoD / Faculty)" name="contactName" value={formData.contactName} onChange={handleChange} required />
-          <Input label="Designation / Department" name="designation" value={formData.designation} onChange={handleChange} required />
-          <Input label="Official Email ID" name="email" value={formData.email} onChange={handleChange} required type="email" />
-          <Input label="Contact Number" name="phone" value={formData.phone} onChange={handleChange} required type="tel" />
-        </div>
+        {/* Scrollable Form Content */}
+        <div className="overflow-y-auto max-h-[90vh] px-8 pb-8">
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-8"
+          >
+            <h1 className="text-3xl font-semibold text-center text-gray-800 mb-2 pt-4">
+              College MoU Collaboration Form
+            </h1>
+            <p className="text-center text-gray-500 mb-6">
+              Please fill out the details below. Fields marked with{" "}
+              <span className="text-red-600">*</span> are mandatory.
+            </p>
 
-        {/* MoU Interest */}
-        <Select
+          {/* Basic Info */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Input label="College Name" name="collegeName" value={formData.collegeName} onChange={handleChange} required />
+            <Input label="College Address" name="collegeAddress" value={formData.collegeAddress} onChange={handleChange} required />
+            <Input label="City / State" name="cityState" value={formData.cityState} onChange={handleChange} required />
+            <Input label="College Website (if available)" name="website" value={formData.website} onChange={handleChange} required={false} />
+            <Input label="Point of Contact (Principal / TPO / HoD / Faculty)" name="contactName" value={formData.contactName} onChange={handleChange} required />
+            <Input label="Designation / Department" name="designation" value={formData.designation} onChange={handleChange} required />
+            <Input label="Official Email ID" name="email" value={formData.email} onChange={handleChange} required type="email" />
+            <Input label="Contact Number" name="phone" value={formData.phone} onChange={handleChange} required type="tel" />
+          </div>
+
+          {/* MoU Interest */}
+          <Select
           label="Is your college interested in signing an MoU with Edunutshell?"
           name="mouInterest"
           value={formData.mouInterest}
@@ -214,108 +218,109 @@ export default function CollegeMoUForm({ isOpen = true, onClose }: CollegeMoUFor
             "Interested, need more details",
             "Not at the moment",
           ]}
-          required
-        />
+            required
+          />
 
-        {/* Domains - FIXED SECTION */}
-        <div>
-          <label className="block font-semibold mb-2">
-            Which domains would your students be most interested in?{" "}
-            <span className="text-red-600">*</span>
-          </label>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 max-h-80 overflow-y-auto border rounded-xl p-4 bg-gray-50">
-            {domainOptions.map((d) => (
-              <label
-                key={d}
-                className="flex items-start space-x-2 cursor-pointer text-sm break-words"
-              >
-                <input
-                  type="checkbox"
-                  name="domains"
-                  value={d}
-                  checked={formData.domains.includes(d)}
-                  onChange={handleChange}
-                  className="mt-1 accent-blue-600 shrink-0"
-                />
-                <span className="flex-1 leading-snug">{d}</span>
-              </label>
-            ))}
+          {/* Domains - FIXED SECTION */}
+          <div>
+            <label className="block font-semibold mb-2">
+              Which domains would your students be most interested in?{" "}
+              <span className="text-red-600">*</span>
+            </label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 max-h-80 overflow-y-auto border rounded-xl p-4 bg-gray-50">
+              {domainOptions.map((d) => (
+                <label
+                  key={d}
+                  className="flex items-start space-x-2 cursor-pointer text-sm break-words"
+                >
+                  <input
+                    type="checkbox"
+                    name="domains"
+                    value={d}
+                    checked={formData.domains.includes(d)}
+                    onChange={handleChange}
+                    className="mt-1 accent-blue-600 shrink-0"
+                  />
+                  <span className="flex-1 leading-snug">{d}</span>
+                </label>
+              ))}
+            </div>
           </div>
-        </div>
 
-        <Select
+          <Select
           label="Approximate number of students who may participate / benefit"
           name="studentsCount"
           value={formData.studentsCount}
           onChange={handleChange}
           options={["01–50", "50–100", "100–200", "200–500", "500+"]}
-          required
-        />
-
-        <Select
-          label="Preferred Mode of Assessment"
-          name="mode"
-          value={formData.mode}
-          onChange={handleChange}
-          options={["Virtual (Online)", "Hybrid (Online + Campus Sessions)"]}
-          required
-        />
-
-        <Select
-          label="Does your college have a Training & Placement Cell?"
-          name="tpoCell"
-          value={formData.tpoCell}
-          onChange={handleChange}
-          options={["Yes", "No", "In progress"]}
-          required
-        />
-
-        <Select
-          label="Would your college be open to hosting Edunutshell Workshops / Seminars?"
-          name="workshops"
-          value={formData.workshops}
-          onChange={handleChange}
-          options={["Yes, we'd love to", "Possibly, in the next semester", "Not currently"]}
-          required
-        />
-
-        <Select
-          label="Would you like to receive an official draft MoU and proposal document?"
-          name="draftMou"
-          value={formData.draftMou}
-          onChange={handleChange}
-          options={["Yes", "No"]}
-          required
-        />
-
-        <TextArea
-          label="Any specific expectations or comments regarding this collaboration?"
-          name="comments"
-          value={formData.comments}
-          onChange={handleChange}
-        />
-
-        <label className="flex items-start space-x-3 bg-gray-50 p-3 rounded-xl border">
-          <input
-            type="checkbox"
-            name="confirmation"
-            checked={formData.confirmation}
-            onChange={handleChange}
             required
-            className="mt-1 accent-blue-600"
           />
-          <span className="text-sm">
-            I acknowledge that the details provided above are true and express our interest in exploring an MoU collaboration with Edunutshell.
-          </span>
-        </label>
 
-        <button
-          type="submit"
-          className="w-full py-3 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition duration-200 focus:ring-4 focus:ring-blue-300"
-        >
-          Submit Form
-        </button>
-      </form>
+          <Select
+            label="Preferred Mode of Assessment"
+            name="mode"
+            value={formData.mode}
+            onChange={handleChange}
+            options={["Virtual (Online)", "Hybrid (Online + Campus Sessions)"]}
+            required
+          />
+
+          <Select
+            label="Does your college have a Training & Placement Cell?"
+            name="tpoCell"
+            value={formData.tpoCell}
+            onChange={handleChange}
+            options={["Yes", "No", "In progress"]}
+            required
+          />
+
+          <Select
+            label="Would your college be open to hosting Edunutshell Workshops / Seminars?"
+            name="workshops"
+            value={formData.workshops}
+            onChange={handleChange}
+            options={["Yes, we'd love to", "Possibly, in the next semester", "Not currently"]}
+            required
+          />
+
+          <Select
+            label="Would you like to receive an official draft MoU and proposal document?"
+            name="draftMou"
+            value={formData.draftMou}
+            onChange={handleChange}
+            options={["Yes", "No"]}
+            required
+          />
+
+          <TextArea
+            label="Any specific expectations or comments regarding this collaboration?"
+            name="comments"
+            value={formData.comments}
+            onChange={handleChange}
+          />
+
+          <label className="flex items-start space-x-3 bg-gray-50 p-3 rounded-xl border">
+            <input
+              type="checkbox"
+              name="confirmation"
+              checked={formData.confirmation}
+              onChange={handleChange}
+              required
+              className="mt-1 accent-blue-600"
+            />
+            <span className="text-sm">
+              I acknowledge that the details provided above are true and express our interest in exploring an MoU collaboration with Edunutshell.
+            </span>
+          </label>
+
+          <button
+            type="submit"
+            className="w-full py-3 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition duration-200 focus:ring-4 focus:ring-blue-300"
+          >
+            Submit Form
+          </button>
+        </form>
+        </div>
       </div>
     </div>
   );

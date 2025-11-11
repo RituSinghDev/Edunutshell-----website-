@@ -192,7 +192,7 @@ export default function Testimonials() {
   );
 
   return (
-    <section className="relative py-6 sm:py-8 md:py-10 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white overflow-hidden z-10">
+    <section className="relative py-12 sm:py-14 md:py-10 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white overflow-hidden z-10">
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse"></div>
@@ -204,12 +204,12 @@ export default function Testimonials() {
         <div className="absolute bottom-20 left-1/3 w-2 h-2 bg-white rounded-full animate-float opacity-20" style={{ animationDelay: '1.5s' }}></div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-6 sm:mb-8 animate-slide-up">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 px-4">
+      <div className="max-w-7xl mx-auto px-6 sm:px-6 lg:px-8 relative z-10">
+        <div className="text-center mb-8 sm:mb-10 md:mb-8 animate-slide-up">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 px-2">
             Student Success Stories
           </h2>
-          <p className="text-base sm:text-lg text-blue-100 max-w-2xl mx-auto px-4">
+          <p className="text-base sm:text-lg text-blue-100 max-w-2xl mx-auto px-2">
             Hear from our graduates who are now working at top tech companies
           </p>
         </div>
@@ -229,7 +229,7 @@ export default function Testimonials() {
         ) : (
           <div className="relative">
             {/* Carousel Container - Always shows 3 cards */}
-            <div className="relative max-w-6xl mx-auto px-4">
+            <div className="relative max-w-6xl mx-auto px-2 md:px-4">
               <div 
                 ref={scrollContainerRef}
                 className="overflow-visible"
@@ -240,8 +240,8 @@ export default function Testimonials() {
                     {displayTestimonials[(currentIndex - 1 + displayTestimonials.length) % displayTestimonials.length] && (
                       <div 
                         key={`left-${currentIndex}`}
-                        className="relative bg-white/20 backdrop-blur-lg rounded-2xl p-4 border border-white/30 flex flex-col shadow-xl transition-all duration-500 scale-90 opacity-40 animate-in fade-in slide-in-from-left-10"
-                        style={{ filter: 'blur(2px)', animationDuration: '500ms' }}
+                        className="relative bg-white/20 backdrop-blur-lg rounded-2xl p-4 border border-white/30 flex flex-col shadow-xl transition-all duration-500 scale-90 opacity-100 animate-in fade-in slide-in-from-left-10"
+                        style={{ animationDuration: '500ms' }}
                       >
                         <TestimonialCard 
                           testimonial={displayTestimonials[(currentIndex - 1 + displayTestimonials.length) % displayTestimonials.length]} 
@@ -270,8 +270,8 @@ export default function Testimonials() {
                     {displayTestimonials[(currentIndex + 1) % displayTestimonials.length] && (
                       <div 
                         key={`right-${currentIndex}`}
-                        className="relative bg-white/20 backdrop-blur-lg rounded-2xl p-4 border border-white/30 flex flex-col shadow-xl transition-all duration-500 scale-90 opacity-40 animate-in fade-in slide-in-from-right-10"
-                        style={{ filter: 'blur(2px)', animationDuration: '500ms' }}
+                        className="relative bg-white/20 backdrop-blur-lg rounded-2xl p-4 border border-white/30 flex flex-col shadow-xl transition-all duration-500 scale-90 opacity-100 animate-in fade-in slide-in-from-right-10"
+                        style={{ animationDuration: '500ms' }}
                       >
                         <TestimonialCard 
                           testimonial={displayTestimonials[(currentIndex + 1) % displayTestimonials.length]} 

@@ -16,7 +16,7 @@ export default function GetHiredBy() {
     const duplicatedCompanies = [...companies, ...companies];
 
     return (
-        <section className="relative bg-gradient-to-r from-blue-600 to-blue-700 py-6 overflow-hidden">
+        <section className="relative bg-gradient-to-r from-blue-600 to-blue-700 py-8 md:py-6 overflow-hidden">
             <div className="container mx-auto px-4">
                 <div className="flex items-center gap-8">
                     {/* Left Text */}
