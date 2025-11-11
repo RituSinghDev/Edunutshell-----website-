@@ -22,7 +22,12 @@ interface FormData {
   confirmation: boolean;
 }
 
-export default function CollegeMoUForm() {
+interface CollegeMoUFormProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
+export default function CollegeMoUForm({ isOpen = true, onClose }: CollegeMoUFormProps = {}) {
   const [formData, setFormData] = useState<FormData>({
     collegeName: "",
     collegeAddress: "",
@@ -97,7 +102,11 @@ export default function CollegeMoUForm() {
           comments: "",
           confirmation: false,
         });
-        window.scrollTo(0, 0);
+        if (onClose) {
+          onClose();
+        } else {
+          window.scrollTo(0, 0);
+        }
       } else alert("Error submitting form");
     } catch (err) {
       console.error(err);
@@ -153,12 +162,26 @@ export default function CollegeMoUForm() {
     "Web 3.0",
   ];
 
+  if (!isOpen) return null;
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 via-white to-gray-50 py-12 px-4 text-gray-800">
-      <form
-        onSubmit={handleSubmit}
-        className="max-w-4xl mx-auto bg-white/90 backdrop-blur-md shadow-2xl rounded-2xl p-8 space-y-8 border border-gray-200"
-      >
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 overflow-y-auto">
+      <div className="relative w-full max-w-4xl my-8">
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="absolute -top-2 -right-2 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition"
+            aria-label="Close"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        )}
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white/95 backdrop-blur-md shadow-2xl rounded-2xl p-8 space-y-8 border border-gray-200"
+        >
         <h1 className="text-3xl font-semibold text-center text-gray-800 mb-2">
           College MoU Collaboration Form
         </h1>
@@ -293,6 +316,7 @@ export default function CollegeMoUForm() {
           Submit Form
         </button>
       </form>
+      </div>
     </div>
   );
 }

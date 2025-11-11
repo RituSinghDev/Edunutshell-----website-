@@ -26,7 +26,17 @@ export default function PopularCourses() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await fetch('https://edunutshell-lms.onrender.com/api/courses/list');
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+        
+        const response = await fetch('https://edunutshell-lms.onrender.com/api/courses/list', {
+          signal: controller.signal,
+          headers: {
+            'Accept': 'application/json',
+          },
+        });
+
+        clearTimeout(timeoutId);
 
         if (!response.ok) {
           throw new Error('Failed to fetch courses');
@@ -46,8 +56,13 @@ export default function PopularCourses() {
           setCourses([]);
         }
       } catch (err) {
-        console.error('Error fetching courses:', err);
-        setError('Failed to load courses');
+        if (err instanceof Error && err.name === 'AbortError') {
+          console.error('Request timeout - API server may be slow or unavailable');
+        } else {
+          console.error('Error fetching courses:', err);
+        }
+        // Silently fail - just show empty state
+        setError(null);
         setCourses([]);
       } finally {
         setLoading(false);

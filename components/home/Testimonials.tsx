@@ -21,7 +21,17 @@ export default function Testimonials() {
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
-        const response = await fetch('https://edunutshell-lms.onrender.com/api/testimonials');
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+        
+        const response = await fetch('https://edunutshell-lms.onrender.com/api/testimonials', {
+          signal: controller.signal,
+          headers: {
+            'Accept': 'application/json',
+          },
+        });
+
+        clearTimeout(timeoutId);
 
         if (!response.ok) {
           throw new Error('Failed to fetch testimonials');
@@ -41,8 +51,13 @@ export default function Testimonials() {
           setTestimonials([]);
         }
       } catch (err) {
-        console.error('Error fetching testimonials:', err);
-        setError('Failed to load testimonials');
+        if (err instanceof Error && err.name === 'AbortError') {
+          console.error('Request timeout - API server may be slow or unavailable');
+        } else {
+          console.error('Error fetching testimonials:', err);
+        }
+        // Silently fail - just show empty state
+        setError(null);
         setTestimonials([]);
       } finally {
         setLoading(false);
