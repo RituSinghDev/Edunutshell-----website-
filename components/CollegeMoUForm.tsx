@@ -169,17 +169,6 @@ export default function CollegeMoUForm({ isOpen, onClose }: CollegeMoUFormProps)
         className="relative w-full max-w-4xl bg-white rounded-2xl shadow-2xl max-h-[90vh] overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="sticky top-0 right-0 float-right m-4 bg-red-500 hover:bg-red-600 text-white rounded-full p-2 shadow-lg transition z-20"
-          aria-label="Close form"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-
         {/* Scrollable Form Content */}
         <div className="overflow-y-auto max-h-[90vh] px-8 pb-8">
           <form

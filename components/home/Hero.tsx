@@ -67,7 +67,7 @@ export default function Hero() {
                   </span>
                   </h1>
                   <p className="text-xl md:text-2xl leading-relaxed tracking-tight text-gray-100">
-                    Build on a smiple belief, learning should be effortless. Explore interctive lessons,
+                    Build on a simple belief, learning should be effortless. Explore interactive lessons,
                     connect with mentors, and experience growth like never before.
                   </p>
                 </div>

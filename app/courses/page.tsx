@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Lottie from "lottie-react";
-import handScrollsAnimation from "@/Hand scrolls.json";
+import Image from "next/image";
 
 interface Course {
   _id: string;
@@ -142,7 +141,7 @@ export default function CoursesPage() {
   return (
     <main className="min-h-screen pt-20 overflow-x-hidden">
       {/* Hero Section */}
-      <section className="relative py-6 sm:py-1" style={{ backgroundColor: '#1a35b8' }}>
+      <section className="relative py-6 sm:py-1 bg-white">
         {/* Animated Background Blobs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-10 right-20 w-96 h-96 bg-blue-300 rounded-full filter blur-3xl opacity-20 animate-blob"></div>
@@ -154,22 +153,26 @@ export default function CoursesPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             {/* Left Content */}
             <div className="text-center lg:text-left">
-              <h1 className="text-3xl sm:text-6xl md:text-5xl font-bold text-white mb-4 animate-slide-up">
+              <h1 className="text-3xl sm:text-6xl md:text-5xl font-bold text-gray-900 mb-4 animate-slide-up">
                 Explore Our Courses
               </h1>
-              <p className="text-lg sm:text-xl text-gray-100 animate-slide-up">
+              <p className="text-lg sm:text-xl text-gray-700 animate-slide-up">
                 Choose from our comprehensive selection of courses designed by industry experts
                 to help you master the latest technologies
               </p>
             </div>
 
             {/* Right Animation */}
-            <div className="flex justify-center lg:justify-end py-4">
-              <div className="w-80 h-80 sm:w-96 sm:h-96">
-                <Lottie 
-                  animationData={handScrollsAnimation}
-                  loop={true}
-                  className="w-full h-full"
+            <div className="flex justify-center py-4 overflow-visible lg:justify-end">
+              <div className="w-[450px] h-80 sm:w-[550px] sm:h-96">
+                <Image 
+                  src="/mobile.png?v=2"
+                  alt="Mobile Phone"
+                  width={550}
+                  height={550}
+                  className="w-full h-full object-contain transform lg:-rotate-6"
+                  priority
+                  unoptimized
                 />
               </div>
             </div>

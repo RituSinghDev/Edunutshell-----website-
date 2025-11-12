@@ -21,6 +21,7 @@ interface BlogPost {
   image?: string;
   tags?: string[];
   eventDate: string;
+  mustRead?: boolean;
 }
 
 function BlogPage() {
@@ -80,7 +81,7 @@ function BlogPage() {
     observeElements();
   }, [filteredPosts, observeElements]);
 
-  // ✅ Filter + sort logic combined
+  // ✅ Filter + sort logic combined with mustRead
   useEffect(() => {
     let posts = [...blogPosts];
     const query = searchQuery.trim().toLowerCase();
@@ -96,19 +97,23 @@ function BlogPage() {
       });
     }
 
-    // ✅ Sorting logic with alphabetical options
-    posts.sort((a, b) => {
-      if (sortOrder === "newest") {
-        return new Date(b.eventDate).getTime() - new Date(a.eventDate).getTime();
-      } else if (sortOrder === "oldest") {
-        return new Date(a.eventDate).getTime() - new Date(b.eventDate).getTime();
-      } else if (sortOrder === "atoz") {
-        return a.title.localeCompare(b.title);
-      } else if (sortOrder === "ztoa") {
-        return b.title.localeCompare(a.title);
-      }
-      return 0;
-    });
+    // ✅ Filter for mustRead or sort
+    if (sortOrder === "mustread") {
+      posts = posts.filter((post) => post.mustRead === true);
+    } else {
+      posts.sort((a, b) => {
+        if (sortOrder === "newest") {
+          return new Date(b.eventDate).getTime() - new Date(a.eventDate).getTime();
+        } else if (sortOrder === "oldest") {
+          return new Date(a.eventDate).getTime() - new Date(b.eventDate).getTime();
+        } else if (sortOrder === "atoz") {
+          return a.title.localeCompare(b.title);
+        } else if (sortOrder === "ztoa") {
+          return b.title.localeCompare(a.title);
+        }
+        return 0;
+      });
+    }
 
     setFilteredPosts(posts);
   }, [searchQuery, blogPosts, sortOrder]);
@@ -184,6 +189,7 @@ function BlogPage() {
                 value={sortOrder}
                 onChange={(e) => setSortOrder(e.target.value)}
               >
+                <option value="mustread">Must Read</option>
                 <option value="newest">Newest First</option>
                 <option value="oldest">Oldest First</option>
                 <option value="atoz">A → Z (Title)</option>
