@@ -378,19 +378,19 @@ const AboutPage = () => {
       </section>
 
       {/* Team Stats */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
+      <section className="py-8 md:py-12 bg-gradient-to-br from-gray-50 to-blue-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <div className="text-center mb-6 md:mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold mb-3 md:mb-4">
               <span className="text-gray-900">Powered by</span> <span className="text-blue-600">Passionate People</span>
             </h2>
-            <p className="text-gray-600 text-lg max-w-3xl mx-auto">
+            <p className="text-gray-600 text-base md:text-lg max-w-3xl mx-auto px-2">
               Our diverse team of educators, technologists, and innovators work together
               to create exceptional learning experiences.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-md md:max-w-none mx-auto">
             {[
               { number: '50+', label: 'Team Members' },
               { number: '15+', label: 'Countries' },
@@ -399,12 +399,12 @@ const AboutPage = () => {
             ].map((stat, index) => (
               <div
                 key={index}
-                className="text-center"
+                className="text-center py-5 md:py-0 flex flex-col items-center justify-center"
               >
-                <div className="text-3xl md:text-4xl font-bold text-blue-600 mb-2">
+                <div className="text-2xl md:text-4xl font-extrabold text-blue-600 mb-2 md:mb-2">
                   {stat.number}
                 </div>
-                <div className="text-gray-600">{stat.label}</div>
+                <div className="text-xs md:text-base text-gray-600 leading-tight">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -412,7 +412,7 @@ const AboutPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20">
+      <section className="py-12 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-3xl p-8 md:p-12 text-center shadow-2xl">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">

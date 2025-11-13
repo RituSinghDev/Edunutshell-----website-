@@ -83,7 +83,7 @@ export default function TrustedCompanies() {
     }, []);
 
     return (
-        <section ref={sectionRef} className="relative bg-gray-100">
+        <section ref={sectionRef} className="relative bg-gray-100 mb-8 md:mb-0">
             {/* Background decorative elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-10 left-20 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
@@ -101,7 +101,7 @@ export default function TrustedCompanies() {
                         </p>
 
                         {/* Tabs */}
-                        <div className="flex justify-center mb-6">
+                        <div className="flex justify-center mb-12 md:mb-6">
                             <div className="inline-flex bg-white rounded-xl p-1.5 shadow-lg border-2 border-gray-200">
                                 <button
                                     onClick={() => setActiveTab('hiring')}
@@ -181,7 +181,7 @@ export default function TrustedCompanies() {
                     <div className="overflow-hidden py-8 w-full">
                         <div
                             key={activeTab}
-                            className="flex gap-16 items-center"
+                            className="flex gap-6 md:gap-16 items-center"
                             style={{
                                 animation: "scrollInfinite 40s linear infinite",
                                 width: "max-content"
@@ -199,10 +199,10 @@ export default function TrustedCompanies() {
                                                 src={partner.logo}
                                                 alt={`${partner.name} logo`}
                                                 className={`w-auto object-contain transition-all duration-300 group-hover:scale-110 ${activeTab === 'college'
-                                                    ? "h-20"
+                                                    ? "h-12 md:h-20"
                                                     : activeTab === 'featured'
-                                                        ? "h-16"
-                                                        : isLargerLogo ? "h-12" : "h-10"
+                                                        ? "h-10 md:h-16"
+                                                        : isLargerLogo ? "h-8 md:h-12" : "h-6 md:h-10"
                                                     }`}
                                                 style={{
                                                     maxWidth: activeTab === 'college' ? "200px" : activeTab === 'featured' ? "220px" : isLargerLogo ? "180px" : "140px",
@@ -214,7 +214,7 @@ export default function TrustedCompanies() {
                                                 }}
                                             />
                                             {activeTab === 'college' && (
-                                                <span className="text-gray-700 dark:text-gray-300 text-sm font-semibold whitespace-nowrap">
+                                                <span className="text-gray-700 dark:text-gray-300 text-xs md:text-sm font-semibold whitespace-nowrap">
                                                     {partner.name}
                                                 </span>
                                             )}

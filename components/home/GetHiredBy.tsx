@@ -16,7 +16,7 @@ export default function GetHiredBy() {
     const duplicatedCompanies = [...companies, ...companies];
 
     return (
-        <section className="relative bg-gradient-to-r from-blue-600 to-blue-700 py-8 md:py-6 overflow-hidden">
+        <section className="relative bg-gradient-to-r from-blue-600 to-blue-700 py-8 md:py-6 overflow-hidden mt-8 md:mt-0">
             <div className="container mx-auto px-4">
                 <div className="flex items-center gap-8">
                     {/* Left Text */}
@@ -44,19 +44,17 @@ export default function GetHiredBy() {
                                 return (
                                     <div
                                         key={index}
-                                        className="flex-shrink-0 flex items-center justify-center px-6"
+                                        className="flex-shrink-0 flex items-center justify-center px-3 md:px-6"
                                     >
-                                        <div className="bg-white px-8 py-4 rounded-lg shadow-md hover:shadow-lg transition-all">
+                                        <div className="bg-white px-4 py-2 md:px-8 md:py-4 rounded-lg shadow-md hover:shadow-lg transition-all">
                                             <Image
                                                 src={company.logo}
                                                 alt={`${company.name} logo`}
                                                 width={isGovtLogo ? 200 : 120}
                                                 height={isGovtLogo ? 60 : 40}
-                                                className="object-contain"
+                                                className={`object-contain ${isGovtLogo ? 'h-8 md:h-[60px]' : 'h-6 md:h-[40px]'}`}
                                                 style={{ 
-                                                    height: isGovtLogo ? "60px" : "40px", 
-                                                    width: "auto", 
-                                                    maxWidth: isGovtLogo ? "200px" : "120px" 
+                                                    width: "auto"
                                                 }}
                                             />
                                         </div>
