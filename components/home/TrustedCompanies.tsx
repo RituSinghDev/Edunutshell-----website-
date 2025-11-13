@@ -172,7 +172,7 @@ export default function TrustedCompanies() {
                 }
             >
                 {/* Infinite Scroll Logos */}
-                <div className="relative h-full flex items-center">
+                <div className="relative h-full flex items-center" data-lenis-prevent>
                     {/* Gradient Overlays */}
                     <div className="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none bg-gradient-to-r from-gray-100 dark:from-zinc-900 via-gray-100/80 dark:via-zinc-900/80 to-transparent"></div>
                     <div className="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none bg-gradient-to-l from-gray-100 dark:from-zinc-900 via-gray-100/80 dark:via-zinc-900/80 to-transparent"></div>
@@ -184,7 +184,11 @@ export default function TrustedCompanies() {
                             className="flex gap-6 md:gap-16 items-center"
                             style={{
                                 animation: "scrollInfinite 40s linear infinite",
-                                width: "max-content"
+                                width: "max-content",
+                                willChange: "transform",
+                                backfaceVisibility: "hidden",
+                                transform: "translate3d(0, 0, 0)",
+                                pointerEvents: "none"
                             }}
                         >
                             {duplicatedPartners.map((partner, index) => {
@@ -192,13 +196,13 @@ export default function TrustedCompanies() {
                                 return (
                                     <div
                                         key={`${activeTab}-${index}`}
-                                        className="flex-shrink-0 flex items-center justify-center px-4 group"
+                                        className="flex-shrink-0 flex items-center justify-center px-4"
                                     >
                                         <div className={`relative flex ${activeTab === 'college' ? 'flex-col' : 'flex-row'} items-center gap-3`}>
                                             <img
                                                 src={partner.logo}
                                                 alt={`${partner.name} logo`}
-                                                className={`w-auto object-contain transition-all duration-300 group-hover:scale-110 ${activeTab === 'college'
+                                                className={`w-auto object-contain ${activeTab === 'college'
                                                     ? "h-12 md:h-20"
                                                     : activeTab === 'featured'
                                                         ? "h-10 md:h-16"

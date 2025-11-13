@@ -27,7 +27,7 @@ export default function GetHiredBy() {
                     </div> */}
 
                     {/* Scrolling Logos Container */}
-                    <div className="flex-1 relative overflow-hidden group">
+                    <div className="flex-1 relative overflow-hidden" data-lenis-prevent>
                         {/* Gradient Overlays - only on logo area */}
                         <div className="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none bg-gradient-to-r from-blue-700 to-transparent"></div>
                         <div className="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none bg-gradient-to-l from-blue-700 to-transparent"></div>
@@ -36,7 +36,11 @@ export default function GetHiredBy() {
                             className="flex gap-12 items-center scroll-container"
                             style={{
                                 animation: "scrollInfinite 30s linear infinite",
-                                width: "max-content"
+                                width: "max-content",
+                                willChange: "transform",
+                                backfaceVisibility: "hidden",
+                                transform: "translate3d(0, 0, 0)",
+                                pointerEvents: "none"
                             }}
                         >
                             {duplicatedCompanies.map((company, index) => {
@@ -46,7 +50,7 @@ export default function GetHiredBy() {
                                         key={index}
                                         className="flex-shrink-0 flex items-center justify-center px-3 md:px-6"
                                     >
-                                        <div className="bg-white px-4 py-2 md:px-8 md:py-4 rounded-lg shadow-md hover:shadow-lg transition-all">
+                                        <div className="bg-white px-4 py-2 md:px-8 md:py-4 rounded-lg shadow-md">
                                             <Image
                                                 src={company.logo}
                                                 alt={`${company.name} logo`}
@@ -66,19 +70,7 @@ export default function GetHiredBy() {
                 </div>
             </div>
 
-            <style jsx>{`
-                @keyframes scrollInfinite {
-                    0% {
-                        transform: translateX(0);
-                    }
-                    100% {
-                        transform: translateX(-50%);
-                    }
-                }
-                .group:hover .scroll-container {
-                    animation-play-state: paused;
-                }
-            `}</style>
+
         </section>
     );
 }
