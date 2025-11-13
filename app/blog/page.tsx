@@ -165,7 +165,7 @@ function BlogPage() {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5" />
             <Input
               type="text"
-              placeholder="Search by title, body or tag..."
+              placeholder="Search by title, body or tag"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-12 pr-4 py-4 sm:py-5 text-base sm:text-lg bg-blue-50 border border-gray-200 rounded-full focus:ring-2 focus:ring-blue-600 text-black placeholder:text-gray-500 w-full"
