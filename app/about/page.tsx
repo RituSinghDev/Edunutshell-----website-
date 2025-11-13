@@ -246,9 +246,9 @@ const AboutPage = () => {
   }, [])
 
   return (
-    <div className="pt-16 overflow-hidden bg-white">
+    <div className="overflow-hidden bg-white">
       {/* Hero Section */}
-      <section ref={heroRef} className="py-20 bg-gradient-to-br from-blue-50 via-white to-blue-100 relative overflow-hidden">
+      <section ref={heroRef} className="py-20 pt-36 bg-gradient-to-br from-blue-50 via-white to-blue-100 relative overflow-hidden">
         {/* Watermark Background Image */}
         <div
           ref={heroBgRef}

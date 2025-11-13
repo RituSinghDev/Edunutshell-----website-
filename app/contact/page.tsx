@@ -53,9 +53,9 @@ export default function ContactPage() {
   };
 
   return (
-    <main className="min-h-screen pt-20 bg-white">
+    <main className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative py-20 bg-slate-900">
+      <section className="relative py-20 pt-40 bg-slate-900">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6">
