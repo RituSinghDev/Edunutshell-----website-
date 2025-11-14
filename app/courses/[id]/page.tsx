@@ -267,8 +267,8 @@ export default function CourseDetailPage() {
                         </div>
                         <span className="text-left">{module.module}</span>
                       </div>
-                      <div className="flex items-center gap-3">
-                        <span className="text-sm text-gray-500 bg-white px-3 py-1 rounded-full">
+                      <div className="flex items-center gap-3 flex-shrink-0">
+                        <span className="text-sm text-gray-500 bg-white px-3 py-1 rounded-full whitespace-nowrap">
                           {module.lessons.length} lessons
                         </span>
                         <svg 
