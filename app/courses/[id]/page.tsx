@@ -14,7 +14,7 @@ interface Course {
   category?: string;
   studentsEnrolled: number;
 }
-
+  
 const getCategoryName = (category: string) => {
   const categoryMap: { [key: string]: string } = {
     "CSE/IT": "CSE / IT Software & Data",
@@ -34,6 +34,7 @@ export default function CourseDetailPage() {
   const [relatedCourses, setRelatedCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [openModules, setOpenModules] = useState<{ [key: number]: boolean }>({});
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -155,9 +156,9 @@ export default function CourseDetailPage() {
   ];
 
   return (
-    <main className="min-h-screen pt-20">
+    <main className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-blue-900 via-blue-800 to-slate-900 text-white">
+      <section className="relative pt-24 pb-20 bg-gradient-to-br from-blue-900 via-blue-800 to-slate-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-6">
             <Link href="/courses" className="inline-flex items-center text-blue-200 hover:text-white transition-colors">
@@ -250,24 +251,63 @@ export default function CourseDetailPage() {
               </div>
 
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Course Curriculum</h3>
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {curriculum.map((module, index) => (
-                  <div key={index} className="border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow">
-                    <div className="bg-gray-50 p-4 font-semibold text-gray-900 flex items-center justify-between">
-                      <span>{module.module}</span>
-                      <span className="text-sm text-gray-500">{module.lessons.length} lessons</span>
-                    </div>
-                    <div className="p-4">
-                      <ul className="space-y-2">
-                        {module.lessons.map((lesson, idx) => (
-                          <li key={idx} className="flex items-center text-gray-600">
-                            <svg className="w-5 h-5 text-blue-600 mr-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            {lesson}
-                          </li>
-                        ))}
-                      </ul>
+                  <div 
+                    key={index} 
+                    className="border-2 border-gray-200 rounded-xl overflow-hidden hover:border-blue-300 transition-all duration-300"
+                  >
+                    <button
+                      onClick={() => setOpenModules(prev => ({ ...prev, [index]: !prev[index] }))}
+                      className="w-full bg-gradient-to-r from-gray-50 to-blue-50 p-5 font-semibold text-gray-900 flex items-center justify-between hover:from-gray-100 hover:to-blue-100 transition-all duration-200"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="bg-blue-600 text-white rounded-lg w-8 h-8 flex items-center justify-center text-sm font-bold">
+                          {index + 1}
+                        </div>
+                        <span className="text-left">{module.module}</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="text-sm text-gray-500 bg-white px-3 py-1 rounded-full">
+                          {module.lessons.length} lessons
+                        </span>
+                        <svg 
+                          className={`w-6 h-6 text-blue-600 transition-transform duration-300 ${openModules[index] ? 'rotate-180' : ''}`}
+                          fill="none" 
+                          viewBox="0 0 24 24" 
+                          stroke="currentColor"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                    </button>
+                    <div 
+                      className={`transition-all duration-300 ease-in-out ${
+                        openModules[index] 
+                          ? 'max-h-96 opacity-100' 
+                          : 'max-h-0 opacity-0'
+                      } overflow-hidden`}
+                    >
+                      <div className="p-5 bg-white border-t-2 border-gray-100">
+                        <ul className="space-y-3">
+                          {module.lessons.map((lesson, idx) => (
+                            <li 
+                              key={idx} 
+                              className="flex items-start text-gray-700 hover:text-blue-600 transition-colors group"
+                            >
+                              <svg 
+                                className="w-5 h-5 text-blue-600 mr-3 flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform" 
+                                fill="none" 
+                                viewBox="0 0 24 24" 
+                                stroke="currentColor"
+                              >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                              <span className="leading-relaxed">{lesson}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 ))}

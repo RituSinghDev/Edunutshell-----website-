@@ -18,7 +18,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen" style={{ overflow: 'hidden' }}>
+    <main className="min-h-screen">
       <SectionTransition id="hero">
         <Hero />
       </SectionTransition>

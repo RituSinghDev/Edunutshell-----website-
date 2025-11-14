@@ -5,7 +5,11 @@ import { motion } from "framer-motion";
 import { MoveRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ChromeGrid } from "@/components/ui/chrome-grid";
+import dynamic from "next/dynamic";
+
+const ParticleRing = dynamic(() => import("@/components/ui/ParticleRing"), {
+  ssr: false,
+});
 
 export default function Hero() {
   const [titleNumber, setTitleNumber] = useState(0);
@@ -27,11 +31,11 @@ export default function Hero() {
 
   return (
     <section className="relative flex items-center justify-center min-h-[600px] pt-20 sm:pt-16 pb-10 sm:pb-12 overflow-hidden">
-      {/* Chrome Grid Background */}
+      {/* ParticleRing Background */}
       <div className="absolute inset-0 w-full h-full">
-        <ChromeGrid />
+        <ParticleRing />
       </div>
-      
+
       {/* Content Overlay */}
       <div className="relative z-10">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 w-full">
@@ -41,30 +45,30 @@ export default function Hero() {
                 <div className="flex gap-6 flex-col">
                   <h1 className="text-5xl md:text-6xl lg:text-7xl tracking-tighter font-regular">
                     <span className="text-white">Education that&apos;s</span>
-                  <span className="relative flex w-full justify-center overflow-hidden md:pb-4 md:pt-1">
-                    &nbsp;
-                    {titles.map((title, index) => (
-                      <motion.span
-                        key={index}
-                        className="absolute font-semibold text-blue-400"
-                        initial={{ opacity: 0, y: "-100" }}
-                        transition={{ type: "spring", stiffness: 50 }}
-                        animate={
-                          titleNumber === index
-                            ? {
-                              y: 0,
-                              opacity: 1,
-                            }
-                            : {
-                              y: titleNumber > index ? -150 : 150,
-                              opacity: 0,
-                            }
-                        }
-                      >
-                        {title}
-                      </motion.span>
-                    ))}
-                  </span>
+                    <span className="relative flex w-full justify-center overflow-hidden md:pb-4 md:pt-1">
+                      &nbsp;
+                      {titles.map((title, index) => (
+                        <motion.span
+                          key={index}
+                          className="absolute font-semibold text-blue-400"
+                          initial={{ opacity: 0, y: "-100" }}
+                          transition={{ type: "spring", stiffness: 50 }}
+                          animate={
+                            titleNumber === index
+                              ? {
+                                y: 0,
+                                opacity: 1,
+                              }
+                              : {
+                                y: titleNumber > index ? -150 : 150,
+                                opacity: 0,
+                              }
+                          }
+                        >
+                          {title}
+                        </motion.span>
+                      ))}
+                    </span>
                   </h1>
                   <p className="text-xl md:text-2xl leading-relaxed tracking-tight text-gray-100">
                     Build on a simple belief, learning should be effortless. Explore interactive lessons,
