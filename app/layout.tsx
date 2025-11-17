@@ -20,8 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={poppins.className} suppressHydrationWarning>
+    <html lang="en" className="overflow-x-hidden">
+      <body className={`${poppins.className} overflow-x-hidden`} suppressHydrationWarning>
         <ClientLayout>
           {children}
         </ClientLayout>

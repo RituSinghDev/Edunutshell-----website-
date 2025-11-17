@@ -19,12 +19,12 @@ const ParticleRing = () => {
   }, []);
 
   return (
-    <div className="relative">
+    <div className="relative w-full h-full">
       <Canvas
         camera={{
           position: isMobile ? [10, -7.5, -15] : [10, -7.5, -5],
         }}
-        style={{ height: "100vh" }}
+        style={{ height: "100vh", width: "100%" }}
         className="bg-slate-900"
       >
         <OrbitControls maxDistance={20} minDistance={10} />

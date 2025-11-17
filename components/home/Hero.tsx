@@ -30,20 +30,20 @@ export default function Hero() {
   }, [titleNumber, titles]);
 
   return (
-    <section className="relative flex items-center justify-center min-h-[600px] pt-20 sm:pt-16 pb-10 sm:pb-12 overflow-hidden">
+    <section className="relative flex items-center justify-center min-h-[600px] pt-20 sm:pt-16 pb-10 sm:pb-12 overflow-hidden w-full">
       {/* ParticleRing Background */}
-      <div className="absolute inset-0 w-full h-full">
+      <div className="absolute inset-0 w-full h-full overflow-hidden">
         <ParticleRing />
       </div>
 
       {/* Content Overlay */}
-      <div className="relative z-10">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 w-full">
-          <div className="flex items-center justify-center text-center">
-            <div className="space-y-8 max-w-4xl">
+      <div className="relative z-10 w-full">
+        <div className="max-w-[1400px] mx-auto px-6 sm:px-6 lg:px-8 py-10 sm:py-12 w-full">
+          <div className="flex items-center justify-center text-center w-full">
+            <div className="space-y-8 max-w-4xl w-full">
               <div className="flex gap-8 flex-col">
                 <div className="flex gap-6 flex-col">
-                  <h1 className="text-5xl md:text-6xl lg:text-7xl tracking-tighter font-regular">
+                  <h1 className="text-4xl md:text-6xl lg:text-7xl tracking-tighter font-regular break-words">
                     <span className="text-white">Education that&apos;s</span>
                     <span className="relative flex w-full justify-center overflow-hidden md:pb-4 md:pt-1">
                       &nbsp;
@@ -70,7 +70,7 @@ export default function Hero() {
                       ))}
                     </span>
                   </h1>
-                  <p className="text-xl md:text-2xl leading-relaxed tracking-tight text-gray-100">
+                  <p className="text-lg md:text-2xl leading-relaxed tracking-tight text-gray-100 break-words">
                     Build on a simple belief, learning should be effortless. Explore interactive lessons,
                     connect with mentors, and experience growth like never before.
                   </p>
