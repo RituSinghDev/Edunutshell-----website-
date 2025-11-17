@@ -16,7 +16,7 @@ export default function GetHiredBy() {
     const duplicatedCompanies = [...companies, ...companies];
 
     return (
-        <section className="relative bg-gradient-to-r from-blue-600 to-blue-700 py-8 md:py-6 overflow-hidden mt-8 md:mt-0">
+        <section className="relative bg-gradient-to-r from-blue-600 to-blue-700 py-8 md:py-6 overflow-hidden -mt-4 md:mt-0">
             <div className="container mx-auto px-4">
                 <div className="flex items-center gap-8">
                     {/* Left Text */}
@@ -27,7 +27,7 @@ export default function GetHiredBy() {
                     </div> */}
 
                     {/* Scrolling Logos Container */}
-                    <div className="flex-1 relative overflow-hidden" data-lenis-prevent>
+                    <div className="flex-1 relative overflow-hidden flex items-center" data-lenis-prevent>
                         {/* Gradient Overlays - only on logo area */}
                         <div className="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none bg-gradient-to-r from-blue-700 to-transparent"></div>
                         <div className="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none bg-gradient-to-l from-blue-700 to-transparent"></div>
@@ -50,7 +50,7 @@ export default function GetHiredBy() {
                                         key={index}
                                         className="flex-shrink-0 flex items-center justify-center px-3 md:px-6"
                                     >
-                                        <div className="bg-white px-4 py-2 md:px-8 md:py-4 rounded-lg shadow-md">
+                                        <div className="bg-white px-4 py-3 md:px-8 md:py-4 rounded-lg shadow-md flex items-center justify-center">
                                             <Image
                                                 src={company.logo}
                                                 alt={`${company.name} logo`}

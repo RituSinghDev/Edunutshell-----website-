@@ -83,7 +83,7 @@ export default function TrustedCompanies() {
     }, []);
 
     return (
-        <section ref={sectionRef} className="relative bg-gray-100 mb-8 md:mb-0">
+        <section ref={sectionRef} className="relative bg-gray-100 mb-0 md:mb-0">
             {/* Background decorative elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-10 left-20 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
@@ -101,7 +101,7 @@ export default function TrustedCompanies() {
                         </p>
 
                         {/* Tabs */}
-                        <div className="flex justify-center mb-6 md:mb-6 px-4">
+                        <div className="flex justify-center mb-8 md:mb-6 px-4 md:px-4">
                             <div className="inline-flex bg-white rounded-xl p-1.5 shadow-lg border-2 border-gray-200 flex-wrap sm:flex-nowrap gap-1.5 sm:gap-0 justify-center max-w-full">
                                 <button
                                     onClick={() => setActiveTab('hiring')}
