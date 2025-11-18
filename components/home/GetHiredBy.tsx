@@ -12,54 +12,59 @@ export default function GetHiredBy() {
         { name: "MSME", logo: "/logos/msme.svg" },
     ];
 
-    // Duplicate for seamless infinite scroll
-    const duplicatedCompanies = [...companies, ...companies];
+    // Triple duplication for ultra-smooth seamless infinite scroll
+    const duplicatedCompanies = [...companies, ...companies, ...companies];
 
     return (
-        <section className="relative bg-gradient-to-r from-blue-600 to-blue-700 py-8 md:py-6 overflow-hidden -mt-4 md:mt-0">
-            <div className="container mx-auto px-4">
-                <div className="flex items-center gap-8">
-                    {/* Left Text */}
-                    {/* <div className="flex-shrink-0 z-20 relative">
-                        <h3 className="text-white text-xl md:text-2xl font-bold whitespace-nowrap">
-                            Students&apos;s<br />Get Hired By
-                        </h3>
-                    </div> */}
-
+        <section 
+            className="relative bg-gradient-to-r from-blue-600 to-blue-700 py-8 md:py-6 -mt-4 md:mt-0 w-full overflow-hidden"
+        >
+            <div className="w-full overflow-hidden">
+                <div className="flex items-center w-full overflow-hidden">
                     {/* Scrolling Logos Container */}
-                    <div className="flex-1 relative overflow-hidden flex items-center" data-lenis-prevent>
-                        {/* Gradient Overlays - only on logo area */}
-                        <div className="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none bg-gradient-to-r from-blue-700 to-transparent"></div>
-                        <div className="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none bg-gradient-to-l from-blue-700 to-transparent"></div>
+                    <div className="w-full relative flex items-center overflow-hidden">
+                        {/* Gradient Overlays */}
+                        <div className="absolute left-0 top-0 bottom-0 w-24 md:w-32 z-10 pointer-events-none bg-gradient-to-r from-blue-700 to-transparent"></div>
+                        <div className="absolute right-0 top-0 bottom-0 w-24 md:w-32 z-10 pointer-events-none bg-gradient-to-l from-blue-700 to-transparent"></div>
                         
                         <div
-                            className="flex gap-12 items-center scroll-container"
+                            className="flex gap-8 md:gap-12 items-center"
                             style={{
-                                animation: "scrollInfinite 30s linear infinite",
+                                animation: "scrollInfinite 20s linear infinite",
                                 width: "max-content",
                                 willChange: "transform",
                                 backfaceVisibility: "hidden",
                                 transform: "translate3d(0, 0, 0)",
-                                pointerEvents: "none"
+                                WebkitBackfaceVisibility: "hidden",
+                                WebkitTransform: "translate3d(0, 0, 0)",
+                                perspective: 1000,
+                                WebkitPerspective: 1000,
                             }}
                         >
                             {duplicatedCompanies.map((company, index) => {
                                 const isGovtLogo = company.name === "Startup India" || company.name === "AICTE" || company.name === "Ministry of Commerce and Industry" || company.name === "MSME" || company.name === "NASSCOM";
                                 return (
                                     <div
-                                        key={index}
-                                        className="flex-shrink-0 flex items-center justify-center px-3 md:px-6"
+                                        key={`${company.name}-${index}`}
+                                        className="flex-shrink-0 flex items-center justify-center"
+                                        style={{
+                                            width: "200px",
+                                            minWidth: "200px",
+                                            maxWidth: "200px"
+                                        }}
                                     >
-                                        <div className="bg-white px-4 py-3 md:px-8 md:py-4 rounded-lg shadow-md flex items-center justify-center">
+                                        <div className="bg-white px-4 py-3 md:px-6 md:py-4 rounded-lg shadow-md flex items-center justify-center w-full h-[60px] md:h-[80px]">
                                             <Image
                                                 src={company.logo}
                                                 alt={`${company.name} logo`}
                                                 width={isGovtLogo ? 200 : 120}
                                                 height={isGovtLogo ? 60 : 40}
-                                                className={`object-contain ${isGovtLogo ? 'h-8 md:h-[60px]' : 'h-6 md:h-[40px]'}`}
+                                                className="object-contain max-h-[40px] md:max-h-[60px] w-auto"
                                                 style={{ 
-                                                    width: "auto"
+                                                    maxWidth: "100%",
+                                                    height: "auto"
                                                 }}
+                                                priority={index < 6}
                                             />
                                         </div>
                                     </div>
@@ -69,8 +74,6 @@ export default function GetHiredBy() {
                     </div>
                 </div>
             </div>
-
-
         </section>
     );
 }

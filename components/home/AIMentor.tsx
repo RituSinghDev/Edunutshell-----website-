@@ -16,6 +16,7 @@ import {
   TrendingUp,
   Lightbulb,
 } from "lucide-react";
+import { JSX } from "react/jsx-runtime";
 
 interface AutoResizeProps {
   minHeight: number;
@@ -101,23 +102,7 @@ export default function AIMentor() {
     return () => clearInterval(typeInterval);
   }, []);
 
-  useEffect(() => {
-    const chatContainer = chatContainerRef.current;
-    if (!chatContainer) return;
 
-    const handleWheel = (e: WheelEvent) => {
-      const { scrollTop, scrollHeight, clientHeight } = chatContainer;
-      const isAtTop = scrollTop === 0;
-      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
-
-      if ((e.deltaY < 0 && !isAtTop) || (e.deltaY > 0 && !isAtBottom)) {
-        e.stopPropagation();
-      }
-    };
-
-    chatContainer.addEventListener('wheel', handleWheel, { passive: false });
-    return () => chatContainer.removeEventListener('wheel', handleWheel);
-  }, [messages]);
 
 
 
@@ -216,7 +201,7 @@ export default function AIMentor() {
       <div className="w-full max-w-3xl flex flex-col mb-4">
         <div className={cn(
           "bg-black/80 rounded-xl border border-neutral-700 flex flex-col",
-          messages.length === 0 ? "h-auto" : "h-[300px] md:h-[350px]"
+          messages.length === 0 ? "h-auto" : "h-[500px] md:h-[600px]"
         )}>
           {/* Chat Display Area - Only show when there are messages */}
           {messages.length > 0 && (
@@ -234,13 +219,17 @@ export default function AIMentor() {
                 >
                   <div
                     className={cn(
-                      "max-w-[85%] md:max-w-[80%] rounded-lg px-3 py-2 md:px-4 text-sm md:text-base",
+                      "max-w-[85%] md:max-w-[80%] rounded-lg px-3 py-2 md:px-4 text-sm md:text-base leading-relaxed",
                       msg.role === "user"
                         ? "bg-blue-600 text-white"
-                        : "bg-white text-gray-900"
+                        : "bg-white text-gray-900 shadow-md"
                     )}
                   >
-                    {msg.content}
+                    {msg.role === "assistant" ? (
+                      <FormattedMessage content={msg.content} />
+                    ) : (
+                      msg.content
+                    )}
                   </div>
                 </div>
               ))}
@@ -372,4 +361,106 @@ function QuickAction({ icon, label, onClick }: QuickActionProps) {
       <span className="text-[10px] md:text-xs leading-tight">{label}</span>
     </Button>
   );
+}
+
+// Component to format AI messages with bold text, bullet points, and paragraphs
+function FormattedMessage({ content }: { content: string }) {
+  // Split content into lines
+  const lines = content.split('\n');
+  const elements: JSX.Element[] = [];
+  let currentParagraph: string[] = [];
+  let listItems: string[] = [];
+  let listType: 'bullet' | 'numbered' | null = null;
+
+  const flushParagraph = () => {
+    if (currentParagraph.length > 0) {
+      const paragraphText = currentParagraph.join(' ');
+      elements.push(
+        <p key={`p-${elements.length}`} className="mb-3">
+          {formatInlineText(paragraphText)}
+        </p>
+      );
+      currentParagraph = [];
+    }
+  };
+
+  const flushList = () => {
+    if (listItems.length > 0) {
+      const ListTag = listType === 'numbered' ? 'ol' : 'ul';
+      elements.push(
+        <ListTag 
+          key={`list-${elements.length}`} 
+          className={cn(
+            "mb-3 space-y-2",
+            listType === 'numbered' ? "list-decimal list-inside" : "list-disc list-inside"
+          )}
+        >
+          {listItems.map((item, idx) => (
+            <li key={idx} className="ml-2">
+              {formatInlineText(item)}
+            </li>
+          ))}
+        </ListTag>
+      );
+      listItems = [];
+      listType = null;
+    }
+  };
+
+  const formatInlineText = (text: string) => {
+    // Handle bold text with **
+    const parts = text.split(/(\*\*.*?\*\*)/g);
+    return parts.map((part, index) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        const boldText = part.slice(2, -2);
+        return <strong key={index} className="font-bold">{boldText}</strong>;
+      }
+      return <span key={index}>{part}</span>;
+    });
+  };
+
+  lines.forEach((line) => {
+    const trimmedLine = line.trim();
+
+    // Empty line - flush current paragraph or list
+    if (!trimmedLine) {
+      flushParagraph();
+      flushList();
+      return;
+    }
+
+    // Check for bullet points (*, -, •)
+    const bulletMatch = trimmedLine.match(/^[*\-•]\s+(.+)$/);
+    if (bulletMatch) {
+      flushParagraph();
+      if (listType !== 'bullet') {
+        flushList();
+        listType = 'bullet';
+      }
+      listItems.push(bulletMatch[1]);
+      return;
+    }
+
+    // Check for numbered lists (1., 2., etc.)
+    const numberedMatch = trimmedLine.match(/^\d+\.\s+(.+)$/);
+    if (numberedMatch) {
+      flushParagraph();
+      if (listType !== 'numbered') {
+        flushList();
+        listType = 'numbered';
+      }
+      listItems.push(numberedMatch[1]);
+      return;
+    }
+
+    // Regular text - add to current paragraph
+    flushList();
+    currentParagraph.push(trimmedLine);
+  });
+
+  // Flush any remaining content
+  flushParagraph();
+  flushList();
+
+  return <div className="space-y-1">{elements}</div>;
 }

@@ -185,7 +185,7 @@ export default function TrustedCompanies() {
                             key={activeTab}
                             className="flex gap-6 md:gap-16 items-center"
                             style={{
-                                animation: "scrollInfinite 40s linear infinite",
+                                animation: "scrollInfinite 30s linear infinite",
                                 width: "max-content",
                                 willChange: "transform",
                                 backfaceVisibility: "hidden",

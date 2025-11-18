@@ -35,21 +35,21 @@ export default function Home() {
         <PopularCourses />
       </SectionTransition>
       
-      <SectionTransition id="trusted-companies">
+      <div id="trusted-companies">
         <TrustedCompanies />
-      </SectionTransition>
+      </div>
       
-      <SectionTransition id="get-hired-by">
+      <div id="get-hired-by">
         <GetHiredBy />
-      </SectionTransition>
+      </div>
       
-      <SectionTransition id="testimonials">
+      <div id="testimonials">
         <Testimonials />
-      </SectionTransition>
+      </div>
       
-      <SectionTransition id="enquiry-form">
+      <div id="enquiry-form">
         <EnquiryForm />
-      </SectionTransition>
+      </div>
     </main>
   );
 }

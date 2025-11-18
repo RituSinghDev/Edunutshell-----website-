@@ -90,9 +90,9 @@ export default function SectionTransition({ children, id, className = '' }: Sect
       className={`section-transition ${className}`}
       style={{
         willChange: 'transform, opacity',
-        overflow: 'hidden',
         width: '100%',
         maxWidth: '100vw',
+        position: 'relative',
       }}
     >
       {children}

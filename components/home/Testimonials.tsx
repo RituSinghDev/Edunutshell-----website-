@@ -192,9 +192,11 @@ export default function Testimonials() {
   );
 
   return (
-    <section className="relative py-12 sm:py-14 md:py-10 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white overflow-hidden z-10">
+    <section 
+      className="relative py-12 sm:py-14 md:py-10 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white z-10 w-full overflow-x-hidden"
+    >
       {/* Background decorative elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse"></div>
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse" style={{ animationDelay: '1s' }}></div>
 
@@ -232,7 +234,7 @@ export default function Testimonials() {
             <div className="relative max-w-6xl mx-auto px-2 md:px-4">
               <div 
                 ref={scrollContainerRef}
-                className="overflow-visible"
+                className="overflow-hidden"
               >
                 <div className="flex justify-center items-center gap-4 md:gap-6">
                   {/* Left Card */}

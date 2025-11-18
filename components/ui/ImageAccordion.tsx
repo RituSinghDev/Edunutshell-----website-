@@ -67,7 +67,7 @@ export default function ImageAccordion() {
               <span
                 className={`absolute text-white font-semibold whitespace-nowrap transition-all duration-300 ease-in-out z-10 ${
                   isExpanded
-                    ? "text-xs lg:text-base bottom-4 lg:bottom-6 left-1/2 -translate-x-1/2 rotate-0"
+                    ? "text-[10px] lg:text-base bottom-4 lg:bottom-6 left-1/2 -translate-x-1/2 rotate-0 text-center px-2 lg:px-0"
                     : "text-xs lg:text-sm w-auto text-left bottom-1/2 translate-y-1/2 lg:bottom-24 lg:translate-y-0 left-1/2 -translate-x-1/2 rotate-90"
                 }`}
               >
