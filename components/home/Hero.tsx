@@ -30,12 +30,12 @@ export default function Hero() {
   }, [titleNumber, titles]);
 
   return (
-    <section className="relative min-h-[550px] pt-20 sm:pt-16 pb-10 sm:pb-12 overflow-hidden w-full" style={{ background: 'linear-gradient(135deg, #000046 0%, #3d50d5 100%)' }}>
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-6 lg:px-8 py-8 sm:py-10 w-full h-full">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center h-full min-h-[450px]">
+    <section className="relative min-h-[400px] lg:min-h-[550px] pt-24 lg:pt-20 pb-4 lg:pb-12 overflow-hidden w-full" style={{ background: 'linear-gradient(135deg, #000046 0%, #3d50d5 100%)' }}>
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-6 lg:px-8 py-4 lg:py-10 w-full h-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-center h-full min-h-[350px] lg:min-h-[450px]">
           
           {/* Left Column - Content */}
-          <div className="space-y-8 z-10">
+          <div className="space-y-4 lg:space-y-8 z-10">
             <div className="flex gap-8 flex-col">
               <div className="flex gap-6 flex-col">
                 <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl tracking-tighter font-regular break-words">

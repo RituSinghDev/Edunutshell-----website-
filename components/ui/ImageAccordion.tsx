@@ -49,7 +49,7 @@ export default function ImageAccordion() {
             <div
               key={item.id}
               className={`relative rounded-xl lg:rounded-2xl overflow-hidden cursor-pointer transition-all duration-700 ease-in-out h-[300px] lg:h-[450px] ${
-                isExpanded ? "w-[200px] lg:w-[400px]" : "w-[40px] lg:w-[60px]"
+                isExpanded ? "w-[200px] lg:w-[400px]" : "w-[40px] lg:w-[40px]"
               }`}
               onMouseEnter={() => setHoveredIndex(index)}
               onClick={() => setHoveredIndex(index)}
@@ -68,7 +68,7 @@ export default function ImageAccordion() {
                 className={`absolute text-white font-semibold whitespace-nowrap transition-all duration-300 ease-in-out z-10 ${
                   isExpanded
                     ? "text-xs lg:text-base bottom-4 lg:bottom-6 left-1/2 -translate-x-1/2 rotate-0"
-                    : "text-xs lg:text-sm w-auto text-left bottom-16 lg:bottom-24 left-1/2 -translate-x-1/2 rotate-90"
+                    : "text-xs lg:text-sm w-auto text-left bottom-1/2 translate-y-1/2 lg:bottom-24 lg:translate-y-0 left-1/2 -translate-x-1/2 rotate-90"
                 }`}
               >
                 {item.title}
