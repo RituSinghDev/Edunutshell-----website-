@@ -36,7 +36,7 @@ export const ContainerScroll = ({
 
   return (
     <div
-      className="h-[35rem] md:h-[50rem] flex items-center justify-center relative p-2 md:p-10 pt-20 md:pt-32"
+      className="h-[35rem] md:h-[50rem] flex items-center justify-center relative p-2 md:p-10 pt-20 md:pt-32 z-10"
       ref={containerRef}
       style={{ isolation: "isolate" }}
     >
