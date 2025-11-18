@@ -30,7 +30,7 @@ export default function GetHiredBy() {
                         <div
                             className="flex gap-8 md:gap-12 items-center"
                             style={{
-                                animation: "scrollInfinite 20s linear infinite",
+                                animation: "scrollInfinite 30s linear infinite",
                                 width: "max-content",
                                 willChange: "transform",
                                 backfaceVisibility: "hidden",
@@ -42,27 +42,28 @@ export default function GetHiredBy() {
                             }}
                         >
                             {duplicatedCompanies.map((company, index) => {
-                                const isGovtLogo = company.name === "Startup India" || company.name === "AICTE" || company.name === "Ministry of Commerce and Industry" || company.name === "MSME" || company.name === "NASSCOM";
                                 return (
                                     <div
                                         key={`${company.name}-${index}`}
                                         className="flex-shrink-0 flex items-center justify-center"
                                         style={{
-                                            width: "200px",
-                                            minWidth: "200px",
-                                            maxWidth: "200px"
+                                            width: "180px",
+                                            minWidth: "180px",
+                                            maxWidth: "180px"
                                         }}
                                     >
-                                        <div className="bg-white px-4 py-3 md:px-6 md:py-4 rounded-lg shadow-md flex items-center justify-center w-full h-[60px] md:h-[80px]">
+                                        <div className="bg-white px-4 py-3 md:px-6 md:py-4 rounded-lg shadow-md flex items-center justify-center w-full h-[70px] md:h-[80px]">
                                             <Image
                                                 src={company.logo}
                                                 alt={`${company.name} logo`}
-                                                width={isGovtLogo ? 200 : 120}
-                                                height={isGovtLogo ? 60 : 40}
-                                                className="object-contain max-h-[40px] md:max-h-[60px] w-auto"
+                                                width={160}
+                                                height={60}
+                                                className="object-contain w-full h-full"
                                                 style={{ 
                                                     maxWidth: "100%",
-                                                    height: "auto"
+                                                    maxHeight: "100%",
+                                                    height: "auto",
+                                                    width: "auto"
                                                 }}
                                                 priority={index < 6}
                                             />

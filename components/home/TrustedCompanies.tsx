@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 
 export default function TrustedCompanies() {
-    const [isVisible, setIsVisible] = useState(false);
     const [activeTab, setActiveTab] = useState<'hiring' | 'college' | 'featured'>('hiring');
     const sectionRef = useRef<HTMLElement>(null);
 
@@ -63,24 +62,8 @@ export default function TrustedCompanies() {
     };
 
     const currentPartners = getCurrentPartners();
-    const duplicatedPartners = [...currentPartners, ...currentPartners];
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                if (entries[0].isIntersecting) {
-                    setIsVisible(true);
-                }
-            },
-            { threshold: 0.2 }
-        );
-
-        if (sectionRef.current) {
-            observer.observe(sectionRef.current);
-        }
-
-        return () => observer.disconnect();
-    }, []);
+    // Triple the logos for seamless infinite scroll
+    const duplicatedPartners = [...currentPartners, ...currentPartners, ...currentPartners];
 
     return (
         <section ref={sectionRef} className="relative bg-gray-100 mb-0 md:mb-0">
@@ -185,7 +168,7 @@ export default function TrustedCompanies() {
                             key={activeTab}
                             className="flex gap-6 md:gap-16 items-center"
                             style={{
-                                animation: "scrollInfinite 30s linear infinite",
+                                animation: "scrollInfinite 15s linear infinite",
                                 width: "max-content",
                                 willChange: "transform",
                                 backfaceVisibility: "hidden",
@@ -193,41 +176,34 @@ export default function TrustedCompanies() {
                                 pointerEvents: "none"
                             }}
                         >
-                            {duplicatedPartners.map((partner, index) => {
-                                const isLargerLogo = ["Swiggy", "Adobe", "Meta", "Netflix", "Salesforce", "Stanford", "Harvard", "MIT", "Coursera", "Forbes"].includes(partner.name);
-                                return (
-                                    <div
-                                        key={`${activeTab}-${index}`}
-                                        className="flex-shrink-0 flex items-center justify-center px-4"
-                                    >
-                                        <div className={`relative flex ${activeTab === 'college' ? 'flex-col' : 'flex-row'} items-center gap-3`}>
-                                            <img
-                                                src={partner.logo}
-                                                alt={`${partner.name} logo`}
-                                                className={`w-auto object-contain ${activeTab === 'college'
-                                                    ? "h-10 md:h-20"
-                                                    : activeTab === 'featured'
-                                                        ? "h-8 md:h-16"
-                                                        : isLargerLogo ? "h-6 md:h-12" : "h-5 md:h-10"
-                                                    }`}
-                                                style={{
-                                                    maxWidth: activeTab === 'college' ? "200px" : activeTab === 'featured' ? "220px" : isLargerLogo ? "180px" : "140px",
-                                                    minWidth: activeTab === 'college' ? "120px" : activeTab === 'featured' ? "140px" : "100px"
-                                                }}
-                                                onError={(e) => {
-                                                    e.currentTarget.style.display = 'none';
-                                                    e.currentTarget.parentElement!.innerHTML = `<span class="text-gray-700 dark:text-gray-300 text-base font-bold">${partner.name}</span>`;
-                                                }}
-                                            />
-                                            {activeTab === 'college' && (
-                                                <span className="text-gray-700 dark:text-gray-300 text-xs md:text-sm font-semibold whitespace-nowrap">
-                                                    {partner.name}
-                                                </span>
-                                            )}
-                                        </div>
+                            {duplicatedPartners.map((partner, index) => (
+                                <div
+                                    key={`${activeTab}-${index}`}
+                                    className="flex-shrink-0 flex items-center justify-center"
+                                    style={{ width: '200px' }}
+                                >
+                                    <div className={`relative flex ${activeTab === 'college' ? 'flex-col' : 'flex-row'} items-center justify-center gap-3 w-full h-full`}>
+                                        <img
+                                            src={partner.logo}
+                                            alt={`${partner.name} logo`}
+                                            className="w-auto object-contain"
+                                            style={{
+                                                height: activeTab === 'college' ? '80px' : activeTab === 'featured' ? '60px' : '50px',
+                                                maxWidth: '180px'
+                                            }}
+                                            onError={(e) => {
+                                                e.currentTarget.style.display = 'none';
+                                                e.currentTarget.parentElement!.innerHTML = `<span class="text-gray-700 dark:text-gray-300 text-base font-bold">${partner.name}</span>`;
+                                            }}
+                                        />
+                                        {activeTab === 'college' && (
+                                            <span className="text-gray-700 dark:text-gray-300 text-xs md:text-sm font-semibold whitespace-nowrap">
+                                                {partner.name}
+                                            </span>
+                                        )}
                                     </div>
-                                );
-                            })}
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>

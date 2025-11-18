@@ -223,7 +223,7 @@
   }
 
   .animate-scroll-infinite {
-    animation: scrollInfinite 30s linear infinite;
+    animation: scrollInfinite 25s linear infinite;
   }
 
   .animate-scale-in {
