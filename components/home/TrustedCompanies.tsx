@@ -166,9 +166,9 @@ export default function TrustedCompanies() {
                     <div className="overflow-hidden py-4 md:py-8 w-full">
                         <div
                             key={activeTab}
-                            className="flex gap-6 md:gap-16 items-center"
+                            className="flex gap-3 md:gap-16 items-center"
                             style={{
-                                animation: "scrollInfinite 15s linear infinite",
+                                animation: "scrollInfinite 30s linear infinite",
                                 width: "max-content",
                                 willChange: "transform",
                                 backfaceVisibility: "hidden",
@@ -179,17 +179,15 @@ export default function TrustedCompanies() {
                             {duplicatedPartners.map((partner, index) => (
                                 <div
                                     key={`${activeTab}-${index}`}
-                                    className="flex-shrink-0 flex items-center justify-center"
-                                    style={{ width: '200px' }}
+                                    className="flex-shrink-0 flex items-center justify-center w-32 md:w-[200px]"
                                 >
                                     <div className={`relative flex ${activeTab === 'college' ? 'flex-col' : 'flex-row'} items-center justify-center gap-3 w-full h-full`}>
                                         <img
                                             src={partner.logo}
                                             alt={`${partner.name} logo`}
-                                            className="w-auto object-contain"
+                                            className="w-auto object-contain h-6 md:h-[50px]"
                                             style={{
-                                                height: activeTab === 'college' ? '80px' : activeTab === 'featured' ? '60px' : '50px',
-                                                maxWidth: '180px'
+                                                maxWidth: '120px'
                                             }}
                                             onError={(e) => {
                                                 e.currentTarget.style.display = 'none';
