@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from "react";
+import { useEffect, memo } from "react";
 import Hero from "@/components/home/Hero";
 import Stats from "@/components/home/Stats";
 import AIMentor from "@/components/home/AIMentor";
@@ -11,7 +11,7 @@ import Testimonials from "@/components/home/Testimonials";
 import EnquiryForm from "@/components/home/EnquiryForm";
 import SectionTransition from "@/components/SectionTransition";
 
-export default function Home() {
+function Home() {
   useEffect(() => {
     // Ensure page starts at the top
     window.scrollTo(0, 0);
@@ -53,3 +53,5 @@ export default function Home() {
     </main>
   );
 }
+
+export default memo(Home)

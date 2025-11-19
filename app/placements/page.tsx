@@ -4,6 +4,21 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import { Briefcase, Users, Award, Globe, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { FloatingIconsHero } from "@/components/ui/floating-icons-hero";
+import {
+  GoogleIcon,
+  GitHubIcon,
+  SpotifyIcon,
+  YouTubeIcon,
+  MicrosoftIcon,
+  DiscordIcon,
+  TwitchIcon,
+  XIcon,
+  FigmaIcon,
+  VercelIcon,
+  SlackIcon,
+  NotionIcon,
+} from "@/components/ui/brand-icons";
 
 interface Testimonial {
   _id: string;
@@ -179,34 +194,35 @@ const Placements = () => {
     return true;
   };
 
+  // Define floating icons for hero section with brand logos
+  const floatingIcons = useMemo(
+    () => [
+      { id: 1, icon: GoogleIcon, className: "top-[18%] left-[8%]" },
+      { id: 2, icon: GitHubIcon, className: "top-[20%] left-[50%]" },
+      { id: 3, icon: SpotifyIcon, className: "top-[30%] left-[45%]" },
+      { id: 4, icon: YouTubeIcon, className: "top-[40%] left-[25%]" },
+      { id: 5, icon: MicrosoftIcon, className: "top-[70%] left-[10%]" },
+      { id: 6, icon: DiscordIcon, className: "top-[75%] left-[50%]" },
+      { id: 7, icon: TwitchIcon, className: "top-[65%] left-[40%]" },
+      { id: 8, icon: XIcon, className: "top-[80%] right-[25%]" },
+      { id: 9, icon: FigmaIcon, className: "top-[20%] right-[20%]" },
+      { id: 10, icon: VercelIcon, className: "top-[35%] left-[5%]" },
+      { id: 11, icon: SlackIcon, className: "top-[55%] right-[15%]" },
+      { id: 12, icon: NotionIcon, className: "top-[25%] right-[8%]" },
+    ],
+    []
+  );
+
   return (
     <div className="min-h-screen">
-      {/* HERO SECTION */}
-      <section className="bg-gradient-to-b from-blue-50 to-blue-100 py-20 text-center">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <h1
-            ref={(el) => { heroRefs.current[0] = el; }}
-            className="opacity-0 translate-y-8 transition-all duration-700 ease-out text-5xl font-bold text-gray-900 mb-6"
-          >
-            Placement Highlights
-          </h1>
-          <p
-            ref={(el) => { heroRefs.current[1] = el; }}
-            className="opacity-0 translate-y-8 transition-all duration-700 ease-out text-xl text-gray-700 mb-8"
-          >
-            Empowering students to launch successful careers with top global organizations.
-          </p>
-          <div
-            ref={(el) => { heroRefs.current[2] = el; }}
-            className="opacity-0 translate-y-8 transition-all duration-700 ease-out inline-block"
-          >
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-lg">
-              Explore Opportunities
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </div>
-        </div>
-      </section>
+      {/* HERO SECTION WITH FLOATING ICONS */}
+      <FloatingIconsHero
+        title="Placement Highlights"
+        subtitle="Empowering students to launch successful careers with top global organizations."
+        ctaText="Explore Opportunities"
+        ctaHref="#opportunities"
+        icons={floatingIcons}
+      />
 
       {/* STATS SECTION */}
       <section className="py-16 bg-white">

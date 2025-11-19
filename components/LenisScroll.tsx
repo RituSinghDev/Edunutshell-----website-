@@ -26,15 +26,6 @@ export default function LenisScroll() {
 
     isInitializedRef.current = true
 
-    // Remove any existing Lenis CSS injections before creating new instance
-    const existingStyles = document.querySelectorAll('style[data-lenis], link[href*="lenis"]')
-    existingStyles.forEach((style, index) => {
-      // Keep only the first one, remove duplicates
-      if (index > 0) {
-        style.remove()
-      }
-    })
-
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),

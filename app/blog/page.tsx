@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, memo } from "react";
 import { Search, Calendar, ArrowRight, TrendingUp } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -78,7 +78,8 @@ function BlogPage() {
   }, []);
 
   useEffect(() => {
-    observeElements();
+    const cleanup = observeElements();
+    return cleanup;
   }, [filteredPosts, observeElements]);
 
   // ✅ Filter + sort logic combined with mustRead
@@ -279,4 +280,4 @@ function BlogPage() {
   );
 }
 
-export default BlogPage;
+export default memo(BlogPage);
