@@ -139,6 +139,13 @@ export default function AIMentor() {
     }
   };
 
+  // Auto-scroll to bottom when messages change
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [messages, isLoading]);
+
   const handleSend = async () => {
     if (!message.trim() || isLoading) return;
 
@@ -207,7 +214,9 @@ export default function AIMentor() {
           {messages.length > 0 && (
             <div 
               ref={chatContainerRef}
-              className="flex-1 overflow-y-auto p-3 md:p-6 space-y-3 md:space-y-4"
+              data-lenis-prevent
+              className="flex-1 overflow-y-auto p-3 md:p-6 space-y-3 md:space-y-4 scroll-smooth"
+              style={{ overscrollBehavior: 'contain' }}
             >
               {messages.map((msg, idx) => (
                 <div
