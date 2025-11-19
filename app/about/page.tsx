@@ -162,7 +162,7 @@ const AboutPage = () => {
         }
       }
 
-      // Timeline Animation
+      // Timeline Animation - Scroll-linked
       if (timelineRef.current) {
         const timelineLine = timelineRef.current.querySelector('.timeline-line')
         const milestoneItems = timelineRef.current.querySelectorAll('.milestone-item')
@@ -171,48 +171,52 @@ const AboutPage = () => {
           gsap.fromTo(timelineLine,
             { scaleY: 0, transformOrigin: 'top' },
             {
-              scaleY: 1, duration: 1.5, ease: 'power2.out',
+              scaleY: 1,
+              ease: 'none',
               scrollTrigger: {
                 trigger: timelineRef.current,
                 start: 'top 60%',
-                toggleActions: 'play none none reverse',
-                once: false,
-                invalidateOnRefresh: false
+                end: 'bottom 80%',
+                scrub: 1,
+                invalidateOnRefresh: true
               }
             }
           )
         }
 
-        milestoneItems.forEach((item) => {
+        milestoneItems.forEach((item, index) => {
           const icon = item.querySelector('.milestone-icon')
           const card = item.querySelector('.milestone-card')
 
           gsap.fromTo(icon,
             { scale: 0, opacity: 0 },
             {
-              scale: 1, opacity: 1, duration: 0.6, ease: 'power2.out',
+              scale: 1, 
+              opacity: 1,
+              ease: 'back.out(1.7)',
               scrollTrigger: {
                 trigger: item,
                 start: 'top 75%',
-                toggleActions: 'play none none reverse',
-                once: false,
-                invalidateOnRefresh: false
+                end: 'top 50%',
+                scrub: 1,
+                invalidateOnRefresh: true
               }
             }
           )
 
           if (card) {
-            const cardElements = card.querySelectorAll('.card-element')
-            gsap.fromTo(cardElements,
-              { y: 40, opacity: 0 },
+            gsap.fromTo(card,
+              { x: index % 2 === 0 ? -50 : 50, opacity: 0 },
               {
-                y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: 'power3.out',
+                x: 0, 
+                opacity: 1,
+                ease: 'power2.out',
                 scrollTrigger: {
                   trigger: item,
                   start: 'top 75%',
-                  toggleActions: 'play none none reverse',
-                  once: false,
-                  invalidateOnRefresh: false
+                  end: 'top 50%',
+                  scrub: 1,
+                  invalidateOnRefresh: true
                 }
               }
             )

@@ -47,12 +47,27 @@ export default function LenisScroll() {
 
     window.__lenisInstance = lenis
 
-    // Sync Lenis with GSAP ScrollTrigger and emit custom events
-    lenis.on('scroll', (e) => {
+    // Sync Lenis with GSAP ScrollTrigger
+    lenis.on('scroll', () => {
       ScrollTrigger.update()
-      
-      // Emit custom event for other components to listen to
-      window.dispatchEvent(new CustomEvent('lenis-scroll', { detail: e }))
+    })
+
+    // Configure ScrollTrigger to work with Lenis
+    ScrollTrigger.scrollerProxy(document.body, {
+      scrollTop(value) {
+        if (arguments.length && value !== undefined) {
+          lenis.scrollTo(value, { immediate: true })
+        }
+        return lenis.animatedScroll || 0
+      },
+      getBoundingClientRect() {
+        return {
+          top: 0,
+          left: 0,
+          width: window.innerWidth,
+          height: window.innerHeight
+        }
+      }
     })
 
     const raf = (time: number) => {
@@ -63,14 +78,19 @@ export default function LenisScroll() {
     gsap.ticker.add(raf)
     gsap.ticker.lagSmoothing(0)
 
+    // Refresh ScrollTrigger after Lenis is set up
+    ScrollTrigger.refresh()
+
     return () => {
       if (rafRef.current) {
         gsap.ticker.remove(rafRef.current)
       }
       if (window.__lenisInstance === lenis) {
+        ScrollTrigger.scrollerProxy(document.body, {})
         lenis.destroy()
         delete window.__lenisInstance
         isInitializedRef.current = false
+        ScrollTrigger.refresh()
       }
     }
   }, [])
