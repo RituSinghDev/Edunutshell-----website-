@@ -17,8 +17,13 @@ export default function Testimonials() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const autoScrollInterval = useRef<NodeJS.Timeout | null>(null);
+  const hasFetched = useRef(false); // Prevent multiple fetches
 
   useEffect(() => {
+    // Prevent multiple fetches
+    if (hasFetched.current) return;
+    hasFetched.current = true;
+
     const fetchTestimonials = async () => {
       try {
         const controller = new AbortController();
@@ -29,6 +34,7 @@ export default function Testimonials() {
           headers: {
             'Accept': 'application/json',
           },
+          cache: 'force-cache', // Enable caching
         });
 
         clearTimeout(timeoutId);

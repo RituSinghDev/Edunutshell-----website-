@@ -39,6 +39,7 @@ export default function SectionTransition({ children, id, className = '' }: Sect
           start: 'top 80%',
           end: isMobile ? 'bottom top' : 'bottom 5%',
           scrub: 1,
+          invalidateOnRefresh: false, // Prevent unnecessary refreshes
           onUpdate: (self) => {
             const progress = self.progress
             

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -22,10 +22,15 @@ export default function CoursesPage() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const hasFetched = useRef(false); // Prevent multiple fetches
   const coursesPerPage = 12;
 
   // Fetch courses from API
   useEffect(() => {
+    // Prevent multiple fetches
+    if (hasFetched.current) return;
+    hasFetched.current = true;
+
     const fetchCourses = async () => {
       try {
         const controller = new AbortController();
@@ -36,6 +41,7 @@ export default function CoursesPage() {
           headers: {
             'Accept': 'application/json',
           },
+          cache: 'force-cache', // Enable caching
         });
         
         clearTimeout(timeoutId);

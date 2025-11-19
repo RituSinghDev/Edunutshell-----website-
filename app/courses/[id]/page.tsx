@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 interface Course {
   _id: string;
@@ -35,16 +35,24 @@ export default function CourseDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [openModules, setOpenModules] = useState<{ [key: number]: boolean }>({});
+  const hasFetched = useRef(false); // Prevent multiple fetches
 
   useEffect(() => {
+    // Prevent multiple fetches for the same course
+    if (hasFetched.current) return;
+    
     const fetchCourse = async () => {
       if (!courseId) return;
+      
+      hasFetched.current = true;
       
       try {
         setLoading(true);
         
         // Fetch all courses from the list endpoint
-        const response = await fetch('https://edunutshell-lms.onrender.com/api/courses/list');
+        const response = await fetch('https://edunutshell-lms.onrender.com/api/courses/list', {
+          cache: 'force-cache', // Enable caching
+        });
         
         if (!response.ok) {
           throw new Error('Failed to fetch courses');

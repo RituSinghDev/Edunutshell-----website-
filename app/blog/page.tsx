@@ -32,6 +32,7 @@ function BlogPage() {
   const [loading, setLoading] = useState(true);
   const [sortOrder, setSortOrder] = useState("newest");
   const fadeRefs = useRef<(HTMLElement | null)[]>([]);
+  const hasFetched = useRef(false); // Prevent multiple fetches
 
   const getImageUrl = (url?: string) =>
     url && url.startsWith("http")
@@ -44,9 +45,15 @@ function BlogPage() {
   };
 
   useEffect(() => {
+    // Prevent multiple fetches
+    if (hasFetched.current) return;
+    hasFetched.current = true;
+
     const fetchBlogs = async () => {
       try {
-        const res = await fetch("https://edunutshell-lms.onrender.com/api/blogs/");
+        const res = await fetch("https://edunutshell-lms.onrender.com/api/blogs/", {
+          cache: 'force-cache', // Enable caching
+        });
         if (!res.ok) throw new Error("Failed to fetch blogs");
         const data = await res.json();
         setBlogPosts(data);

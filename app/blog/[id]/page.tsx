@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Calendar, ArrowLeft, Clock, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -27,6 +27,7 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
   const searchParams = useSearchParams();
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
+  const hasFetched = useRef(false); // Prevent multiple fetches
 
   // Get post data from URL params first, then try to fetch from API
   useEffect(() => {
@@ -40,17 +41,25 @@ export default function BlogDetailPage({ params }: BlogDetailPageProps) {
       } catch (error) {
         console.error("Error parsing post data:", error);
         // If parsing fails, fetch from API using the ID
-        fetchPostById(params.id);
+        if (!hasFetched.current) {
+          hasFetched.current = true;
+          fetchPostById(params.id);
+        }
       }
     } else {
       // If no data in URL, fetch from API
-      fetchPostById(params.id);
+      if (!hasFetched.current) {
+        hasFetched.current = true;
+        fetchPostById(params.id);
+      }
     }
   }, [searchParams, params.id]);
 
   const fetchPostById = async (id: string) => {
     try {
-      const res = await fetch(`https://edunutshell-lms.onrender.com/api/blogs/${id}`);
+      const res = await fetch(`https://edunutshell-lms.onrender.com/api/blogs/${id}`, {
+        cache: 'force-cache', // Enable caching
+      });
       if (!res.ok) throw new Error("Failed to fetch blog post");
       const data = await res.json();
       setPost(data);

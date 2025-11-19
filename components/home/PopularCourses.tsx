@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, memo } from "react";
 
 interface Course {
   _id: string;
@@ -14,16 +14,21 @@ interface Course {
   studentsEnrolled: number;
 }
 
-export default function PopularCourses() {
+function PopularCourses() {
   const [isVisible, setIsVisible] = useState(false);
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const hasFetched = useRef(false); // Prevent multiple fetches
 
   // Fetch courses from API
   useEffect(() => {
+    // Prevent multiple fetches
+    if (hasFetched.current) return;
+    hasFetched.current = true;
+
     const fetchCourses = async () => {
       try {
         const controller = new AbortController();
@@ -34,6 +39,7 @@ export default function PopularCourses() {
           headers: {
             'Accept': 'application/json',
           },
+          cache: 'force-cache', // Enable caching
         });
 
         clearTimeout(timeoutId);
@@ -263,3 +269,5 @@ export default function PopularCourses() {
     </section>
   );
 }
+
+export default memo(PopularCourses);

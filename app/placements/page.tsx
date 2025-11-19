@@ -133,7 +133,7 @@ const Placements = () => {
       try {
         // console.log("Fetching testimonials...");
         const res = await fetch("https://edunutshell-lms.onrender.com/api/testimonials", {
-          cache: "no-cache", // Changed from force-cache to avoid cached errors
+          cache: "force-cache", // Enable caching
         });
 
         if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);

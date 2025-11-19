@@ -97,9 +97,9 @@ const AboutPage = () => {
             scrollTrigger: {
               trigger: missionRef.current,
               start: 'top 80%',
-              end: 'bottom 20%',
-              toggleActions: 'play reverse play reverse',
-              scrub: 0.5
+              toggleActions: 'play none none reverse',
+              once: false,
+              invalidateOnRefresh: false
             }
           }
         )
@@ -115,9 +115,9 @@ const AboutPage = () => {
             scrollTrigger: {
               trigger: visionRef.current,
               start: 'top 80%',
-              end: 'bottom 20%',
-              toggleActions: 'play reverse play reverse',
-              scrub: 0.5
+              toggleActions: 'play none none reverse',
+              once: false,
+              invalidateOnRefresh: false
             }
           }
         )
@@ -137,9 +137,9 @@ const AboutPage = () => {
               scrollTrigger: {
                 trigger: storyRef.current,
                 start: 'top 75%',
-                end: 'top 25%',
-                toggleActions: 'play reverse play reverse',
-                scrub: 0.5
+                toggleActions: 'play none none reverse',
+                once: false,
+                invalidateOnRefresh: false
               }
             }
           )
@@ -153,9 +153,9 @@ const AboutPage = () => {
               scrollTrigger: {
                 trigger: storyRef.current,
                 start: 'top 70%',
-                end: 'top 30%',
-                toggleActions: 'play reverse play reverse',
-                scrub: 0.5
+                toggleActions: 'play none none reverse',
+                once: false,
+                invalidateOnRefresh: false
               }
             }
           )
@@ -171,13 +171,13 @@ const AboutPage = () => {
           gsap.fromTo(timelineLine,
             { scaleY: 0, transformOrigin: 'top' },
             {
-              scaleY: 1, duration: 1.5, ease: 'none',
+              scaleY: 1, duration: 1.5, ease: 'power2.out',
               scrollTrigger: {
                 trigger: timelineRef.current,
                 start: 'top 60%',
-                end: 'bottom 40%',
-                toggleActions: 'play reverse play reverse',
-                scrub: 1
+                toggleActions: 'play none none reverse',
+                once: false,
+                invalidateOnRefresh: false
               }
             }
           )
@@ -194,9 +194,9 @@ const AboutPage = () => {
               scrollTrigger: {
                 trigger: item,
                 start: 'top 75%',
-                end: 'top 40%',
-                toggleActions: 'play reverse play reverse',
-                scrub: 0.5
+                toggleActions: 'play none none reverse',
+                once: false,
+                invalidateOnRefresh: false
               }
             }
           )
@@ -210,9 +210,9 @@ const AboutPage = () => {
                 scrollTrigger: {
                   trigger: item,
                   start: 'top 75%',
-                  end: 'top 40%',
-                  toggleActions: 'play reverse play reverse',
-                  scrub: 0.5
+                  toggleActions: 'play none none reverse',
+                  once: false,
+                  invalidateOnRefresh: false
                 }
               }
             )
@@ -231,9 +231,9 @@ const AboutPage = () => {
               scrollTrigger: {
                 trigger: card,
                 start: 'top 85%',
-                end: 'top 50%',
-                toggleActions: 'play reverse play reverse',
-                scrub: 0.5
+                toggleActions: 'play none none reverse',
+                once: false,
+                invalidateOnRefresh: false
               }
             }
           )
