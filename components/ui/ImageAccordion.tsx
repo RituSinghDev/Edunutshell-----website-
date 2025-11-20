@@ -61,14 +61,13 @@ const AccordionItem = ({ item, isActive, onMouseEnter }: {
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent z-10"></div>
       {/* Caption Text */}
       <span
-        className={`absolute text-white font-semibold whitespace-nowrap z-20
-          transition-all duration-300 ease-in-out overflow-hidden text-ellipsis
+        className={`absolute text-white font-semibold z-20 whitespace-nowrap
+          transition-all duration-300 ease-in-out
           ${
             isActive
-              ? 'bottom-4 sm:bottom-5 md:bottom-6 text-center text-[10px] sm:text-[11px] md:text-[13px] lg:text-lg px-1 sm:px-1 md:px-1 lg:px-2' // Active state: very small on tablet, minimal padding
-              : 'bottom-20 sm:bottom-20 md:bottom-25 left-1/2 -translate-x-1/2 rotate-90 text-xs sm:text-sm md:text-base origin-center' // Inactive state: vertical, positioned higher from bottom
+              ? 'bottom-4 sm:bottom-5 md:bottom-6 left-1/2 -translate-x-1/2 text-[8px] sm:text-[10px] md:text-xs lg:text-base px-1' // Active state: single line, centered, smaller text
+              : 'bottom-20 sm:bottom-20 md:bottom-25 left-1/2 -translate-x-1/2 rotate-90 text-xs sm:text-sm md:text-base origin-center overflow-hidden text-ellipsis' // Inactive state: vertical
           }`}
-        style={isActive ? { left: '4px', right: '4px' } : {}}
       >
         {item.title}
       </span>
@@ -78,7 +77,7 @@ const AccordionItem = ({ item, isActive, onMouseEnter }: {
 
 // --- Main ImageAccordion Component ---
 export function ImageAccordion() {
-  const [activeIndex, setActiveIndex] = useState(2);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const handleItemHover = (index: number) => {
     setActiveIndex(index);

@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback, memo } from "react";
-import { Search, Calendar, ArrowRight, TrendingUp } from "lucide-react";
+import { Search, Calendar, ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -13,6 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Globe } from "@/components/ui/globe";
 
 interface BlogPost {
   _id: string;
@@ -138,17 +138,18 @@ function BlogPage() {
   return (
     <div className="min-h-screen bg-white text-gray-900">
       {/* HERO SECTION */}
-      <section className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 text-white py-24 px-4 sm:px-6 lg:px-8 fade-in mt-12 sm:mt-16">
+      <section className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 text-white pt-32 pb-24 px-4 sm:px-6 lg:px-8 fade-in overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 w-72 h-72 bg-blue-400 rounded-full blur-3xl animate-pulse"></div>
           <div className="absolute bottom-0 right-0 w-72 h-72 bg-indigo-500 rounded-full blur-3xl animate-pulse"></div>
         </div>
 
-        <div className="relative max-w-7xl mx-auto text-center">
-          <Badge className="mb-6 bg-blue-600 text-white border-0">
-            <TrendingUp className="w-4 h-4 mr-1" /> Trending Articles
-          </Badge>
+        {/* Globe Animation */}
+        <div className="absolute left-1/2 top-[60%] lg:top-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] lg:w-[500px] lg:h-[500px] opacity-30 pointer-events-auto">
+          <Globe className="w-full h-full" />
+        </div>
 
+        <div className="relative max-w-7xl mx-auto text-center">
           <h1
             className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 opacity-0 translate-y-8 transition-all duration-700"
             ref={(el) => { fadeRefs.current[0] = el; }}
