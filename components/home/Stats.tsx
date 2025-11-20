@@ -110,7 +110,7 @@ export default function Stats() {
               className={`group ${isVisible ? "animate-slide-up" : "opacity-0"}`}
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className="relative rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden" style={{ backgroundColor: '#3d50d5' }}>
+              <div className="relative rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden h-full min-h-[240px] md:min-h-[220px] lg:min-h-0 flex flex-col" style={{ backgroundColor: '#3d50d5' }}>
                 {/* Colored accent bar */}
                 <div className={`absolute top-0 left-0 right-0 h-1 ${stat.color}`}></div>
 

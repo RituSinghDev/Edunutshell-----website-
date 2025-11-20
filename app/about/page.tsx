@@ -330,14 +330,14 @@ const AboutPage = () => {
             {milestones.map((milestone, index) => (
               <div
                 key={index}
-                className={`milestone-item flex items-center mb-12 ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'
+                className={`milestone-item flex items-center mb-8 md:mb-12 ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'
                   }`}
               >
-                <div className={`w-1/2 ${index % 2 === 0 ? 'pr-8 text-right' : 'pl-8'}`}>
-                  <div className="milestone-card bg-white rounded-2xl p-6 border-2 border-gray-200 shadow-lg hover:shadow-xl transition-all">
-                    <div className="card-element text-blue-600 font-bold text-lg mb-2">{milestone.year}</div>
-                    <h3 className="card-element text-xl font-semibold mb-2 text-gray-900">{milestone.title}</h3>
-                    <p className="card-element text-gray-600">{milestone.description}</p>
+                <div className={`w-1/2 ${index % 2 === 0 ? 'pr-4 md:pr-8 text-right' : 'pl-4 md:pl-8'}`}>
+                  <div className="milestone-card bg-white rounded-2xl p-4 md:p-6 border-2 border-gray-200 shadow-lg hover:shadow-xl transition-all">
+                    <div className="card-element text-blue-600 font-bold text-base md:text-lg mb-1 md:mb-2">{milestone.year}</div>
+                    <h3 className="card-element text-lg md:text-xl font-semibold mb-1 md:mb-2 text-gray-900">{milestone.title}</h3>
+                    <p className="card-element text-sm md:text-base text-gray-600">{milestone.description}</p>
                   </div>
                 </div>
 

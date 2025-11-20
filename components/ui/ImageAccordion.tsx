@@ -1,81 +1,100 @@
 "use client";
 
-import { useState } from "react";
+import { useState } from 'react';
+import Image from 'next/image';
 
-interface AccordionItem {
-  id: number;
-  image: string;
-  title: string;
-}
-
-const accordionItems: AccordionItem[] = [
+// --- Data for the image accordion ---
+const accordionItems = [
   {
     id: 1,
-    image: "https://images.unsplash.com/photo-1638482856830-16b0e15fcf2c?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title: "Software & Data",
+    title: 'Software & Data',
+    imageUrl: 'https://images.unsplash.com/photo-1638482856830-16b0e15fcf2c?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   },
   {
     id: 2,
-    image: "https://images.unsplash.com/photo-1550041473-d296a3a8a18a?q=80&w=627&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title: "Electronics Core",
+    title: 'Electronics Core',
+    imageUrl: 'https://images.unsplash.com/photo-1550041473-d296a3a8a18a?q=80&w=627&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   },
   {
     id: 3,
-    image: "https://images.unsplash.com/photo-1615906655593-ad0386982a0f?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title: "Mechanical & Automotive",
+    title: 'Mechanical & Automotive',
+    imageUrl: 'https://images.unsplash.com/photo-1615906655593-ad0386982a0f?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   },
   {
     id: 4,
-    image: "https://images.unsplash.com/photo-1581092583537-20d51b4b4f1b?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title: "Architecture & Civil",
+    title: 'Architecture & Civil',
+    imageUrl: 'https://images.unsplash.com/photo-1581092583537-20d51b4b4f1b?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   },
   {
     id: 5,
-    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title: "Management + Marketing",
+    title: 'Management + Marketing',
+    imageUrl: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   },
 ];
 
-export default function ImageAccordion() {
-  const [hoveredIndex, setHoveredIndex] = useState<number>(0);
+// --- Accordion Item Component ---
+const AccordionItem = ({ item, isActive, onMouseEnter }: {
+  item: typeof accordionItems[0];
+  isActive: boolean;
+  onMouseEnter: () => void;
+}) => {
+  return (
+    <div
+      className={`relative rounded-2xl overflow-hidden cursor-pointer
+        transition-all duration-700 ease-in-out
+        h-[300px] sm:h-[350px] md:h-[400px] lg:h-[450px]
+        ${isActive 
+          ? 'w-[200px] sm:w-[250px] md:w-[300px] lg:w-[400px]' 
+          : 'w-[50px] sm:w-[60px] md:w-[65px] lg:w-[70px]'
+        }`}
+      onMouseEnter={onMouseEnter}
+    >
+      {/* Background Image */}
+      <Image
+        src={item.imageUrl}
+        alt={item.title}
+        fill
+        className="object-cover"
+        sizes="(max-width: 640px) 200px, (max-width: 768px) 250px, (max-width: 1024px) 300px, 400px"
+      />
+      {/* Dark overlay for better text readability */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent z-10"></div>
+      {/* Caption Text */}
+      <span
+        className={`absolute text-white font-semibold whitespace-nowrap z-20
+          transition-all duration-300 ease-in-out overflow-hidden text-ellipsis
+          ${
+            isActive
+              ? 'bottom-4 sm:bottom-5 md:bottom-6 text-center text-[10px] sm:text-[11px] md:text-[13px] lg:text-lg px-1 sm:px-1 md:px-1 lg:px-2' // Active state: very small on tablet, minimal padding
+              : 'bottom-20 sm:bottom-20 md:bottom-25 left-1/2 -translate-x-1/2 rotate-90 text-xs sm:text-sm md:text-base origin-center' // Inactive state: vertical, positioned higher from bottom
+          }`}
+        style={isActive ? { left: '4px', right: '4px' } : {}}
+      >
+        {item.title}
+      </span>
+    </div>
+  );
+};
+
+// --- Main ImageAccordion Component ---
+export function ImageAccordion() {
+  const [activeIndex, setActiveIndex] = useState(2);
+
+  const handleItemHover = (index: number) => {
+    setActiveIndex(index);
+  };
 
   return (
-    <div className="w-full h-full flex items-center justify-center overflow-hidden">
-      <div className="flex flex-row items-center justify-center gap-2 lg:gap-4 h-[300px] lg:h-[450px] w-full lg:w-auto">
-        {accordionItems.map((item, index) => {
-          const isExpanded = hoveredIndex === index;
-
-          return (
-            <div
-              key={item.id}
-              className={`relative rounded-xl lg:rounded-2xl overflow-hidden cursor-pointer transition-all duration-700 ease-in-out h-[300px] lg:h-[450px] ${
-                isExpanded ? "w-[200px] lg:w-[400px]" : "w-[40px] lg:w-[40px]"
-              }`}
-              onMouseEnter={() => setHoveredIndex(index)}
-              onClick={() => setHoveredIndex(index)}
-              onTouchStart={() => setHoveredIndex(index)}
-              style={{
-                backgroundImage: `url(${item.image})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            >
-              {/* Dark Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-
-              {/* Title */}
-              <span
-                className={`absolute text-white font-semibold whitespace-nowrap transition-all duration-300 ease-in-out z-10 ${
-                  isExpanded
-                    ? "text-[10px] lg:text-base bottom-4 lg:bottom-6 left-1/2 -translate-x-1/2 rotate-0 text-center px-2 lg:px-0"
-                    : "text-xs lg:text-sm w-auto text-left bottom-1/2 translate-y-1/2 lg:bottom-24 lg:translate-y-0 left-1/2 -translate-x-1/2 rotate-90"
-                }`}
-              >
-                {item.title}
-              </span>
-            </div>
-          );
-        })}
+    <div className="w-full">
+      <div className="flex flex-row items-center justify-center gap-2 sm:gap-3 md:gap-4 overflow-x-auto p-2 sm:p-3 md:p-4">
+        {accordionItems.map((item, index) => (
+          <AccordionItem
+            key={item.id}
+            item={item}
+            isActive={index === activeIndex}
+            onMouseEnter={() => handleItemHover(index)}
+          />
+        ))}
       </div>
     </div>
   );
