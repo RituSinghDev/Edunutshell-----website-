@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/courses/:id",
+      "destination": "/courses/[id]"
+    }
+  ]
+}

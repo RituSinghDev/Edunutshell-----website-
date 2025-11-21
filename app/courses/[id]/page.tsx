@@ -14,6 +14,10 @@ interface Course {
   category?: string;
   studentsEnrolled: number;
 }
+
+// This tells Next.js this is a dynamic route that should be rendered on-demand
+export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
   
 const getCategoryName = (category: string) => {
   const categoryMap: { [key: string]: string } = {
@@ -42,25 +46,44 @@ export default function CourseDetailPage() {
     if (hasFetched.current) return;
     
     const fetchCourse = async () => {
-      if (!courseId) return;
+      if (!courseId) {
+        setError('No course ID provided');
+        setLoading(false);
+        return;
+      }
       
       hasFetched.current = true;
       
       try {
         setLoading(true);
+        setError(null);
+        
+        // Add timeout to prevent hanging
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
         
         // Fetch all courses from the list endpoint
         const response = await fetch('https://edunutshell-lms.onrender.com/api/courses/list', {
-          cache: 'force-cache', // Enable caching
+          signal: controller.signal,
+          headers: {
+            'Accept': 'application/json',
+          },
+          cache: 'no-store', // Don't cache to ensure fresh data
         });
         
+        clearTimeout(timeoutId);
+        
         if (!response.ok) {
-          throw new Error('Failed to fetch courses');
+          throw new Error(`Failed to fetch courses: ${response.status} ${response.statusText}`);
         }
         
         const data = await response.json();
         const allCourses = Array.isArray(data) ? data : 
                           data.courses || data.data || [];
+        
+        if (!Array.isArray(allCourses) || allCourses.length === 0) {
+          throw new Error('No courses available');
+        }
         
         // Find the specific course by ID
         const foundCourse = allCourses.find((c: Course) => c._id === courseId);
@@ -79,7 +102,11 @@ export default function CourseDetailPage() {
         
       } catch (err) {
         console.error('Error fetching course:', err);
-        setError(err instanceof Error ? err.message : 'Failed to load course details');
+        if (err instanceof Error && err.name === 'AbortError') {
+          setError('Request timeout - please try again');
+        } else {
+          setError(err instanceof Error ? err.message : 'Failed to load course details');
+        }
       } finally {
         setLoading(false);
       }
