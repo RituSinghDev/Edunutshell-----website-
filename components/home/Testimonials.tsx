@@ -34,7 +34,7 @@ export default function Testimonials() {
           headers: {
             'Accept': 'application/json',
           },
-          cache: 'force-cache', // Enable caching
+          cache: 'no-store', // Always fetch fresh data
         });
 
         clearTimeout(timeoutId);

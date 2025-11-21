@@ -52,7 +52,7 @@ function BlogPage() {
     const fetchBlogs = async () => {
       try {
         const res = await fetch("https://edunutshell-lms.onrender.com/api/blogs/", {
-          cache: 'force-cache', // Enable caching
+          cache: 'no-store', // Always fetch fresh data
         });
         if (!res.ok) throw new Error("Failed to fetch blogs");
         const data = await res.json();
@@ -145,7 +145,7 @@ function BlogPage() {
         </div>
 
         {/* Globe Animation */}
-        <div className="absolute left-1/2 top-[60%] lg:top-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] lg:w-[500px] lg:h-[500px] opacity-30 pointer-events-auto">
+        <div className="absolute left-1/2 top-[50%] lg:top-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] lg:w-[500px] lg:h-[500px] opacity-30 pointer-events-auto">
           <Globe className="w-full h-full" />
         </div>
 

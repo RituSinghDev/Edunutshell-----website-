@@ -166,7 +166,7 @@ export default function CourseDetailPage() {
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative pt-24 pb-20 bg-gradient-to-br from-blue-900 via-blue-800 to-slate-900 text-white">
+      <section className="relative pt-22 pb-10 lg:pt-24 lg:pb-20 bg-gradient-to-br from-blue-900 via-blue-800 to-slate-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-6">
             <Link href="/courses" className="inline-flex items-center text-blue-200 hover:text-white transition-colors">
@@ -177,15 +177,15 @@ export default function CourseDetailPage() {
             </Link>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-center">
             <div>
-              <div className="inline-block bg-blue-500 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+              <div className="inline-block bg-blue-500 px-3 py-1.5 md:px-3 md:py-1.5 lg:px-4 lg:py-2 rounded-full text-xs md:text-xs lg:text-sm font-semibold mb-3 md:mb-3 lg:mb-4">
                 {getCategoryName(course.category || course.level)}
               </div>
-              <h1 className="text-4xl md:text-5xl font-bold mb-6">{course.title}</h1>
-              <p className="text-xl text-blue-100 mb-6">{course.description}</p>
+              <h1 className="text-3xl md:text-3xl lg:text-5xl font-bold mb-4 md:mb-4 lg:mb-6">{course.title}</h1>
+              <p className="text-lg md:text-base lg:text-xl text-blue-100 mb-4 md:mb-4 lg:mb-6">{course.description}</p>
 
-              <div className="flex flex-wrap gap-6 mb-8">
+              <div className="flex flex-wrap gap-4 md:gap-4 lg:gap-6 mb-6 md:mb-6 lg:mb-8 text-sm md:text-sm lg:text-base">
                 <div className="flex items-center">
                   <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -206,7 +206,8 @@ export default function CourseDetailPage() {
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
+              {/* Desktop/Tablet Buttons - Hidden on Mobile */}
+              <div className="hidden md:flex flex-col sm:flex-row gap-4">
                 <Link
                   href="/contact"
                   className="bg-white text-blue-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-blue-50 transition-all text-center"
@@ -226,8 +227,24 @@ export default function CourseDetailPage() {
               <img
                 src={course.image}
                 alt={course.title}
-                className="rounded-2xl shadow-2xl w-full h-auto"
+                className="rounded-2xl w-full h-auto shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] hover:shadow-[0_25px_70px_-15px_rgba(0,0,0,0.6)] hover:scale-[1.02] transition-all duration-300"
               />
+              
+              {/* Mobile Only Buttons - Below Image */}
+              <div className="flex flex-col gap-3 mt-6 md:hidden">
+                <Link
+                  href="/contact"
+                  className="bg-white text-blue-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-blue-50 transition-all text-center"
+                >
+                  Enroll Now
+                </Link>
+                <Link
+                  href="/contact"
+                  className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white/10 transition-all text-center"
+                >
+                  Request Info
+                </Link>
+              </div>
             </div>
           </div>
         </div>

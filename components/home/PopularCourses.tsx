@@ -39,7 +39,7 @@ function PopularCourses() {
           headers: {
             'Accept': 'application/json',
           },
-          cache: 'force-cache', // Enable caching
+          cache: 'no-store', // Always fetch fresh data
         });
 
         clearTimeout(timeoutId);
@@ -79,7 +79,7 @@ function PopularCourses() {
   }, []);
 
   // Use API courses - display first 8
-  const displayCourses = courses.slice(0, 8);
+  const displayCourses = courses.slice(0, 12);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
