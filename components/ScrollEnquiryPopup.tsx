@@ -23,28 +23,39 @@ export default function ScrollEnquiryPopup() {
       return
     }
 
+    let scrollTimeout: NodeJS.Timeout
+
     const handleScroll = () => {
       if (hasShown) return
 
-      // Get scroll position
-      const scrollTop = window.scrollY || document.documentElement.scrollTop
-      const scrollHeight = document.documentElement.scrollHeight
-      const clientHeight = window.innerHeight
-
-      // Calculate scroll percentage
-      const scrollPercentage = (scrollTop / (scrollHeight - clientHeight)) * 100
-
-      if (scrollPercentage >= 15 && !isVisible) {
-        setIsVisible(true)
-        setHasShown(true)
-        // Prevent scrolling when popup is open
-        document.body.style.overflow = 'hidden'
-        document.documentElement.style.overflow = 'hidden'
+      // Debounce scroll checks to reduce performance impact
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout)
       }
+
+      scrollTimeout = setTimeout(() => {
+        // Get scroll position
+        const scrollTop = window.scrollY || document.documentElement.scrollTop
+        const scrollHeight = document.documentElement.scrollHeight
+        const clientHeight = window.innerHeight
+
+        // Calculate scroll percentage
+        const scrollPercentage = (scrollTop / (scrollHeight - clientHeight)) * 100
+
+        if (scrollPercentage >= 15 && !isVisible) {
+          setIsVisible(true)
+          setHasShown(true)
+          // Prevent scrolling when popup is open
+          document.body.style.overflow = 'hidden'
+          document.documentElement.style.overflow = 'hidden'
+        }
+      }, 100)
     }
 
-    // Check immediately in case user refreshes mid-page
-    handleScroll()
+    // Delay initial check to avoid blocking initial render
+    const initTimeout = setTimeout(() => {
+      handleScroll()
+    }, 500)
 
     // Listen to both scroll and Lenis scroll events
     window.addEventListener('scroll', handleScroll, { passive: true })
@@ -54,6 +65,10 @@ export default function ScrollEnquiryPopup() {
     window.addEventListener('lenis-scroll', lenisScrollHandler as EventListener)
 
     return () => {
+      clearTimeout(initTimeout)
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout)
+      }
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('lenis-scroll', lenisScrollHandler as EventListener)
     }

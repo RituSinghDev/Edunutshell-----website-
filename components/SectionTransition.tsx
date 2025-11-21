@@ -15,73 +15,78 @@ interface SectionTransitionProps {
 export default function SectionTransition({ children, id, className = '' }: SectionTransitionProps) {
   const sectionRef = useRef<HTMLDivElement>(null)
   const [isMobile, setIsMobile] = useState(false)
+  const resizeTimeoutRef = useRef<NodeJS.Timeout>()
 
   useEffect(() => {
-    // Check if mobile viewport
+    // Check if mobile viewport with debouncing
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
+      if (resizeTimeoutRef.current) {
+        clearTimeout(resizeTimeoutRef.current)
+      }
+      resizeTimeoutRef.current = setTimeout(() => {
+        setIsMobile(window.innerWidth < 768)
+      }, 150)
     }
     
     checkMobile()
-    window.addEventListener('resize', checkMobile)
+    window.addEventListener('resize', checkMobile, { passive: true })
     
-    return () => window.removeEventListener('resize', checkMobile)
+    return () => {
+      window.removeEventListener('resize', checkMobile)
+      if (resizeTimeoutRef.current) {
+        clearTimeout(resizeTimeoutRef.current)
+      }
+    }
   }, [])
 
   useEffect(() => {
     const section = sectionRef.current
     if (!section) return
 
-    const ctx = gsap.context(() => {
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: 'top 80%',
-          end: isMobile ? 'bottom top' : 'bottom 5%',
-          scrub: 1,
-          invalidateOnRefresh: false, // Prevent unnecessary refreshes
-          onUpdate: (self) => {
-            const progress = self.progress
-            
-            if (isMobile) {
-              // Mobile: Simple fade in, no fade out
-              if (progress < 0.1) {
-                gsap.set(section, {
-                  opacity: progress / 0.1,
-                  y: 40 * (1 - progress / 0.1),
-                })
-              } else {
-                gsap.set(section, {
-                  opacity: 1,
-                  y: 0,
-                })
-              }
-            } else {
-              // Desktop: Original behavior with fade out
-              if (progress < 0.1) {
-                gsap.set(section, {
-                  opacity: progress / 0.1,
-                  y: 40 * (1 - progress / 0.1),
-                })
-              } else if (progress >= 0.1 && progress <= 0.95) {
-                gsap.set(section, {
-                  opacity: 1,
-                  y: 0,
-                })
-              } else if (progress > 0.95) {
-                const fadeProgress = (progress - 0.95) / 0.05
-                gsap.set(section, {
-                  opacity: 1 - (fadeProgress * 0.3),
-                  y: -20 * fadeProgress,
-                })
-              }
-            }
-          },
-        },
-      })
-    }, section)
+    // Delay initialization to prevent conflicts with Lenis
+    const initTimeout = setTimeout(() => {
+      const ctx = gsap.context(() => {
+        // Use GSAP's native animation instead of onUpdate for better performance
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 80%',
+            end: isMobile ? 'bottom top' : 'bottom 5%',
+            scrub: 1,
+            invalidateOnRefresh: false,
+          }
+        })
 
-    return () => ctx.revert()
+        if (isMobile) {
+          // Mobile: Simple fade in, no fade out
+          tl.fromTo(section, 
+            { opacity: 0, y: 40 },
+            { opacity: 1, y: 0, duration: 0.1, ease: 'none' }
+          )
+          .to(section, 
+            { opacity: 1, y: 0, duration: 0.9, ease: 'none' }
+          )
+        } else {
+          // Desktop: Fade in, stay visible, then fade out
+          tl.fromTo(section,
+            { opacity: 0, y: 40 },
+            { opacity: 1, y: 0, duration: 0.1, ease: 'none' }
+          )
+          .to(section,
+            { opacity: 1, y: 0, duration: 0.85, ease: 'none' }
+          )
+          .to(section,
+            { opacity: 0.7, y: -20, duration: 0.05, ease: 'none' }
+          )
+        }
+      }, section)
+
+      return () => ctx.revert()
+    }, 150)
+
+    return () => {
+      clearTimeout(initTimeout)
+    }
   }, [isMobile])
 
   return (
@@ -90,7 +95,6 @@ export default function SectionTransition({ children, id, className = '' }: Sect
       id={id}
       className={`section-transition ${className}`}
       style={{
-        willChange: 'transform, opacity',
         width: '100%',
         maxWidth: '100vw',
         position: 'relative',

@@ -73,15 +73,26 @@ export function Globe({
     if (!canvasRef.current) return
 
     let resizeTimeout: NodeJS.Timeout
+    let mounted = true
+    let initAttempts = 0
+    const maxAttempts = 10
 
     const initGlobe = () => {
-      if (!canvasRef.current) return
+      if (!canvasRef.current || !mounted) return
       
       const width = canvasRef.current.offsetWidth
       
+      if (width === 0 && initAttempts < maxAttempts) {
+        // If width is 0, wait a bit and try again with limit
+        initAttempts++
+        setTimeout(() => {
+          if (mounted) initGlobe()
+        }, 100)
+        return
+      }
+
       if (width === 0) {
-        // If width is 0, wait a bit and try again
-        requestAnimationFrame(initGlobe)
+        // Give up after max attempts
         return
       }
 
@@ -96,7 +107,7 @@ export function Globe({
         onRender,
       })
 
-      if (canvasRef.current) {
+      if (canvasRef.current && mounted) {
         canvasRef.current.style.opacity = "1"
       }
     }
@@ -105,17 +116,21 @@ export function Globe({
       // Debounce resize to avoid too many reinitializations
       clearTimeout(resizeTimeout)
       resizeTimeout = setTimeout(() => {
-        initGlobe()
-      }, 150)
+        if (mounted) initGlobe()
+      }, 250)
     }
 
-    // Start initialization
-    initGlobe()
+    // Delay initial globe creation to avoid blocking initial render
+    const initTimeout = setTimeout(() => {
+      if (mounted) initGlobe()
+    }, 200)
 
     // Add resize listener
-    window.addEventListener("resize", handleResize)
+    window.addEventListener("resize", handleResize, { passive: true })
 
     return () => {
+      mounted = false
+      clearTimeout(initTimeout)
       clearTimeout(resizeTimeout)
       window.removeEventListener("resize", handleResize)
       if (globeRef.current) {
