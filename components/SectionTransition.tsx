@@ -15,7 +15,7 @@ interface SectionTransitionProps {
 export default function SectionTransition({ children, id, className = '' }: SectionTransitionProps) {
   const sectionRef = useRef<HTMLDivElement>(null)
   const [isMobile, setIsMobile] = useState(false)
-  const resizeTimeoutRef = useRef<NodeJS.Timeout>()
+  const resizeTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
 
   useEffect(() => {
     // Check if mobile viewport with debouncing
