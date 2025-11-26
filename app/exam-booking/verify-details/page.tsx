@@ -19,7 +19,7 @@ export default function LoginPage() {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:7000/api/student/lookup', {
+      const response = await fetch('https://edunutshell-lms.onrender.com/api/student/lookup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -80,18 +80,18 @@ export default function LoginPage() {
         <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Login Form */}
-          <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-8">
+          <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 sm:p-8">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
                 <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
               </div>
-              <h2 className="text-2xl font-bold text-slate-900">Verify Your Details</h2>
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Verify Your Details</h2>
             </div>
 
             {error && (
-              <div className="bg-red-50 border-2 border-red-200 rounded-xl p-4 flex items-start gap-3">
+              <div className="bg-red-50 border-2 border-red-200 rounded-xl p-4 flex items-start gap-3 mb-6">
                 <svg className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                 </svg>
@@ -172,7 +172,7 @@ export default function LoginPage() {
             </div>
 
             {/* Sign Up Link */}
-            <Link href="/exam-booking">
+            <Link href="/exam-booking/verification">
               <button className="w-full bg-white border-2 border-slate-300 text-slate-700 py-4 rounded-xl font-semibold hover:bg-slate-50 transition-all">
                 Register as New Student
               </button>
