@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function VerificationPage() {
+  const router = useRouter();
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -40,7 +42,27 @@ export default function VerificationPage() {
 
       const data = await response.json();
       console.log('Registration successful:', data);
-      setSubmitted(true);
+      
+      // Store student data in localStorage
+      const studentData = {
+        _id: data.student?._id || data._id,
+        name: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        program: formData.program,
+      };
+      localStorage.setItem('studentData', JSON.stringify(studentData));
+      
+      // Check if there's a pending booking (slot and exam selected)
+      const selectedSlot = localStorage.getItem('selectedSlot');
+      const selectedExam = localStorage.getItem('selectedExam');
+      
+      if (selectedSlot && selectedExam) {
+        // Redirect to checkout if booking is pending
+        router.push('/exam-booking/checkout');
+      } else {
+        setSubmitted(true);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred. Please try again.');
       console.error('Registration error:', err);

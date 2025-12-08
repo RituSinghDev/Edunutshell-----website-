@@ -102,7 +102,14 @@ export default function SlotsPage() {
       if (slot) {
         localStorage.setItem('selectedSlot', JSON.stringify(slot));
         localStorage.setItem('selectedExam', JSON.stringify(selectedExam));
-        router.push('/exam-booking/checkout');
+        
+        // Check if student data exists, if not redirect to verification
+        const studentData = localStorage.getItem('studentData');
+        if (!studentData) {
+          router.push('/exam-booking/verification');
+        } else {
+          router.push('/exam-booking/checkout');
+        }
       }
     }
   };

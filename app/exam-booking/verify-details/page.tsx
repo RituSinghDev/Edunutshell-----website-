@@ -12,11 +12,13 @@ export default function LoginPage() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [verificationStatus, setVerificationStatus] = useState<'pending' | 'approved' | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
+    setVerificationStatus(null);
 
     try {
       const response = await fetch('https://edunutshell-lms.onrender.com/api/student/lookup', {
@@ -34,9 +36,40 @@ export default function LoginPage() {
       const data = await response.json();
 
       if (response.ok) {
-        // Student found and approved - redirect to slots
-        localStorage.setItem('studentData', JSON.stringify(data));
-        router.push('/exam-booking/slots');
+        // Check verification status
+        const status = data.student?.verificationStatus || data.verificationStatus || 'approved';
+        
+        if (status === 'pending') {
+          // Show pending status
+          setVerificationStatus('pending');
+        } else if (status === 'approved') {
+          // Student approved - store student data
+          const studentData = {
+            _id: data.student?._id || data._id,
+            name: data.student?.name || data.name,
+            email: data.student?.email || data.email || formData.email,
+            phone: data.student?.phone || data.phone || formData.phone,
+            program: data.student?.program || data.program,
+          };
+          localStorage.setItem('studentData', JSON.stringify(studentData));
+          
+          setVerificationStatus('approved');
+          
+          // Wait 2 seconds to show approved status, then redirect to checkout
+          setTimeout(() => {
+            // Check if there's a pending booking (slot and exam selected)
+            const selectedSlot = localStorage.getItem('selectedSlot');
+            const selectedExam = localStorage.getItem('selectedExam');
+            
+            if (selectedSlot && selectedExam) {
+              // Redirect to checkout if booking is pending
+              router.push('/exam-booking/checkout');
+            } else {
+              // Otherwise go to slots page
+              router.push('/exam-booking/slots');
+            }
+          }, 2000);
+        }
       } else {
         // Handle different error cases
         setError(data.message || 'Student not found. Please register first.');
@@ -79,8 +112,64 @@ export default function LoginPage() {
       <section className="py-12">
         <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
           
-          {/* Login Form */}
-          <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 sm:p-8">
+          {/* Show status if verification is pending or approved */}
+          {verificationStatus === 'pending' && (
+            <div className="bg-white rounded-2xl shadow-lg border border-amber-200 p-6 sm:p-8 mb-6">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h2 className="text-2xl font-bold text-slate-900 mb-2">Verification Pending</h2>
+                <p className="text-slate-600 mb-4">
+                  Your registration is currently under review by our admin team.
+                </p>
+                <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-left">
+                  <p className="text-sm text-slate-700 mb-2">
+                    <strong>What's next?</strong>
+                  </p>
+                  <ul className="text-sm text-slate-600 space-y-1 list-disc list-inside">
+                    <li>Admin review typically takes 24-48 hours</li>
+                    <li>You'll receive an email once approved</li>
+                    <li>Check your spam folder for updates</li>
+                  </ul>
+                </div>
+                <Link href="/">
+                  <button className="mt-6 w-full bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition-all">
+                    Go to Home
+                  </button>
+                </Link>
+              </div>
+            </div>
+          )}
+
+          {verificationStatus === 'approved' && (
+            <div className="bg-white rounded-2xl shadow-lg border border-green-200 p-6 sm:p-8 mb-6">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h2 className="text-2xl font-bold text-slate-900 mb-2">Verified Successfully!</h2>
+                <p className="text-slate-600 mb-4">
+                  Your account is approved. Redirecting to checkout...
+                </p>
+                <div className="flex items-center justify-center gap-2 text-blue-600">
+                  <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  <span className="font-medium">Please wait...</span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Login Form - Hide when status is shown */}
+          {!verificationStatus && (
+            <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 sm:p-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
                 <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -178,8 +267,10 @@ export default function LoginPage() {
               </button>
             </Link>
           </div>
+          )}
 
-          {/* Info Box */}
+          {/* Info Box - Hide when status is shown */}
+          {!verificationStatus && (
           <div className="mt-6 bg-white rounded-2xl shadow-lg border border-slate-200 p-6">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -196,6 +287,7 @@ export default function LoginPage() {
               </div>
             </div>
           </div>
+          )}
         </div>
       </section>
     </div>
