@@ -5,17 +5,72 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 // Razorpay types
+interface RazorpayResponse {
+  razorpay_order_id: string;
+  razorpay_payment_id: string;
+  razorpay_signature: string;
+}
+
+interface RazorpayError {
+  description: string;
+  code: string;
+  reason: string;
+}
+
+interface RazorpayOptions {
+  key: string;
+  amount: number;
+  currency: string;
+  name: string;
+  description: string;
+  order_id: string;
+  prefill: {
+    name: string;
+    email: string;
+    contact: string;
+  };
+  theme: {
+    color: string;
+  };
+  handler: (response: RazorpayResponse) => void;
+  modal: {
+    ondismiss: () => void;
+  };
+}
+
 declare global {
   interface Window {
-    Razorpay: any;
+    Razorpay: new (options: RazorpayOptions) => {
+      open: () => void;
+      on: (event: string, handler: (response: { error: RazorpayError }) => void) => void;
+    };
   }
+}
+
+interface SlotData {
+  _id: string;
+  date: string;
+  available: number;
+}
+
+interface ExamData {
+  _id: string;
+  title: string;
+  price: number;
+}
+
+interface StudentDetails {
+  _id?: string;
+  name: string;
+  email: string;
+  phone: string;
 }
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const [slotData, setSlotData] = useState<any>(null);
-  const [examData, setExamData] = useState<any>(null);
-  const [studentDetails, setStudentDetails] = useState<any>(null);
+  const [slotData, setSlotData] = useState<SlotData | null>(null);
+  const [examData, setExamData] = useState<ExamData | null>(null);
+  const [studentDetails, setStudentDetails] = useState<StudentDetails | null>(null);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -133,7 +188,7 @@ export default function CheckoutPage() {
         theme: {
           color: '#2563eb',
         },
-        handler: async function (response: any) {
+        handler: async function (response: RazorpayResponse) {
           console.log('Payment successful:', response);
 
           // Step 4: Verify payment on backend
@@ -189,7 +244,7 @@ export default function CheckoutPage() {
       const razorpay = new window.Razorpay(options);
       razorpay.open();
 
-      razorpay.on('payment.failed', function (response: any) {
+      razorpay.on('payment.failed', function (response: { error: RazorpayError }) {
         console.error('Payment failed:', response.error);
         setError(response.error.description || 'Payment failed. Please try again.');
         setLoading(false);

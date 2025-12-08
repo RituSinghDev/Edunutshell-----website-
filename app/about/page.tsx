@@ -267,7 +267,7 @@ const AboutPage = () => {
               Your breakthrough <span className="text-blue-600">begins now</span>
             </h1>
             <p ref={heroSubtextRef} className="text-xl text-gray-600 leading-relaxed">
-              At Edunutshell, we don't just offer courses. We build career-changing experiences. Our programs are built for students, freshers, and working professionals who are ready to bridge the gap between education and real opportunity. Whether you're preparing for your dream job or exploring a brand-new domain, Edunutshell equips you with the skills, guidance, and industry exposure to stand out and succeed. We believe transformation happens when learning meets purpose, and every learner deserves a fair shot at proving their potential regardless of background or degree.
+              At Edunutshell, we don&apos;t just offer courses. We build career-changing experiences. Our programs are built for students, freshers, and working professionals who are ready to bridge the gap between education and real opportunity. Whether you&apos;re preparing for your dream job or exploring a brand-new domain, Edunutshell equips you with the skills, guidance, and industry exposure to stand out and succeed. We believe transformation happens when learning meets purpose, and every learner deserves a fair shot at proving their potential regardless of background or degree.
             </p>
           </div>
         </div>
@@ -301,7 +301,7 @@ const AboutPage = () => {
                 <h2 className="text-2xl font-bold text-gray-900">Our Vision</h2>
               </div>
               <p className="animate-item text-gray-600 text-lg leading-relaxed">
-                To be India's most impactful EdTech platform by transforming fresh talent into
+                To be India&apos;s most impactful EdTech platform by transforming fresh talent into
                 industry-ready professionals — through accessible training, practical internships, and
                 lifelong career support.
               </p>
@@ -318,7 +318,7 @@ const AboutPage = () => {
               <span className="text-gray-900">Our</span> <span className="text-blue-600">Journey</span>
             </h2>
             <p className="story-subtext text-gray-600 text-lg max-w-3xl mx-auto">
-              From a small startup to a global education platform, here's how we've grown
+              From a small startup to a global education platform, here&apos;s how we&apos;ve grown
               to serve thousands of learners worldwide.
             </p>
           </div>

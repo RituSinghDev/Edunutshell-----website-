@@ -36,7 +36,7 @@ export default function ContactPage() {
         throw new Error('Failed to submit form');
       }
 
-      setSubmitStatus({ type: 'success', message: 'Thank you for contacting us! We\'ll get back to you soon.' });
+      setSubmitStatus({ type: 'success', message: 'Thank you for contacting us! We&apos;ll get back to you soon.' });
       setFormData({ name: "", email: "", phone: "", message: "" });
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -62,7 +62,7 @@ export default function ContactPage() {
             Contact Us
           </h1>
           <p className="text-xl text-slate-300 max-w-2xl mx-auto">
-            We're here to answer your questions and help you get started
+            We&apos;re here to answer your questions and help you get started
           </p>
         </div>
       </section>
@@ -77,7 +77,7 @@ export default function ContactPage() {
                 Send a Message
               </h2>
               <p className="text-slate-600 mb-6">
-                Fill out the form and we'll get back to you within 24 hours
+                Fill out the form and we&apos;ll get back to you within 24 hours
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-4">

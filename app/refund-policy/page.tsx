@@ -1,5 +1,4 @@
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 
 export default function RefundPolicy() {
   return (
@@ -159,7 +158,7 @@ export default function RefundPolicy() {
                 <div className="bg-blue-50 rounded-xl p-6 border border-[#8ec5ff]">
                   <p className="text-gray-700 leading-relaxed">
                     In certain situations, partial refunds may be granted at our discretion. This includes cases where 
-                    you've completed a portion of the course but experienced significant issues with the remaining content.
+                    you&apos;ve completed a portion of the course but experienced significant issues with the remaining content.
                   </p>
                 </div>
               </section>

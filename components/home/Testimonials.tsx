@@ -161,7 +161,7 @@ export default function Testimonials() {
 
       {/* Content */}
       <p className="text-white mb-4 leading-relaxed text-center text-xs md:text-sm flex-grow line-clamp-4 md:line-clamp-5">
-        "{testimonial.message}"
+        &quot;{testimonial.message}&quot;
       </p>
 
       {/* Author */}

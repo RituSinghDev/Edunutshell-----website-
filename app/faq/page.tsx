@@ -1,5 +1,4 @@
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 
 export default function FAQ() {
   const faqs = [
@@ -142,7 +141,7 @@ export default function FAQ() {
                 Still have questions?
               </h2>
               <p className="text-[#8ec5ff] mb-8 text-lg max-w-2xl mx-auto">
-                Can't find the answer you're looking for? Our support team is here to help.
+                Can&apos;t find the answer you&apos;re looking for? Our support team is here to help.
               </p>
               <a
                 href="/contact"

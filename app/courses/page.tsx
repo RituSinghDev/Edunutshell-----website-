@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 
 interface Course {
   _id: string;
@@ -171,14 +170,10 @@ export default function CoursesPage() {
             {/* Right Animation */}
             <div className="flex justify-center py-4 overflow-visible lg:justify-end">
               <div className="w-[450px] h-80 sm:w-[550px] sm:h-96">
-                <Image 
+                <img 
                   src="/mobile.png?v=2"
                   alt="Mobile Phone"
-                  width={550}
-                  height={550}
                   className="w-full h-full object-contain transform lg:-rotate-6"
-                  priority
-                  unoptimized
                 />
               </div>
             </div>
@@ -305,7 +300,7 @@ export default function CoursesPage() {
           <div className="mb-6 text-center">
             <p className="text-gray-600">
               Showing <span className="font-semibold text-blue-600">{filteredCourses.length}</span> course{filteredCourses.length !== 1 ? 's' : ''}
-              {searchQuery && <span> matching "{searchQuery}"</span>}
+              {searchQuery && <span> matching &quot;{searchQuery}&quot;</span>}
             </p>
           </div>
 
@@ -404,7 +399,7 @@ export default function CoursesPage() {
               </svg>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">No courses found</h3>
               <p className="text-gray-600 mb-6">
-                Try adjusting your search or filter to find what you're looking for.
+                Try adjusting your search or filter to find what you&apos;re looking for.
               </p>
               <button
                 onClick={() => {

@@ -1,5 +1,4 @@
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 
 export default function TermsAndConditions() {
   return (
@@ -36,7 +35,7 @@ export default function TermsAndConditions() {
                   Agreement to Terms
                 </h2>
                 <p className="text-gray-600 leading-relaxed">
-                  By accessing and using EduNutshell's website and services, you accept and agree to be bound by 
+                  By accessing and using EduNutshell&apos;s website and services, you accept and agree to be bound by 
                   the terms and provision of this agreement. If you do not agree to abide by the above, please do 
                   not use this service.
                 </p>
@@ -48,7 +47,7 @@ export default function TermsAndConditions() {
                   Use License
                 </h2>
                 <p className="text-gray-600 leading-relaxed mb-4">
-                  Permission is granted to temporarily access the materials on EduNutshell's website for personal, 
+                  Permission is granted to temporarily access the materials on EduNutshell&apos;s website for personal, 
                   non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, 
                   and under this license you may not:
                 </p>
@@ -81,7 +80,7 @@ export default function TermsAndConditions() {
                     <svg className="w-5 h-5 text-[#1a3481] mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
-                    <p className="text-gray-700">Transfer the materials to another person or "mirror" the materials on any other server</p>
+                    <p className="text-gray-700">Transfer the materials to another person or &quot;mirror&quot; the materials on any other server</p>
                   </div>
                 </div>
               </section>

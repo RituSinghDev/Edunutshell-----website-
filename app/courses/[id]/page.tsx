@@ -285,9 +285,9 @@ export default function CourseDetailPage() {
               <h2 className="text-3xl font-bold text-gray-900 mb-6">Course Overview</h2>
               <p className="text-lg text-gray-600 mb-8 leading-relaxed">
                 This comprehensive {course.title} course is designed to provide you with in-depth knowledge and practical skills. 
-                Whether you're a beginner or looking to advance your career, this course offers a structured learning path with 
-                hands-on projects, expert guidance, and industry-relevant content. You'll gain the expertise needed to excel in 
-                this field and stand out in today's competitive job market.
+                Whether you&apos;re a beginner or looking to advance your career, this course offers a structured learning path with 
+                hands-on projects, expert guidance, and industry-relevant content. You&apos;ll gain the expertise needed to excel in 
+                this field and stand out in today&apos;s competitive job market.
               </p>
 
               <h3 className="text-2xl font-bold text-gray-900 mb-6">What You'll Learn</h3>

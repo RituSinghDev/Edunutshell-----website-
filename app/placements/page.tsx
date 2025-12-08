@@ -220,7 +220,6 @@ const Placements = () => {
         title="Placement Highlights"
         subtitle="Empowering students to launch successful careers with top global organizations."
         ctaText="Explore Opportunities"
-        ctaHref="#opportunities"
         icons={floatingIcons}
       />
 

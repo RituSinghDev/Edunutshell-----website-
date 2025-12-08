@@ -127,11 +127,11 @@ export default function LoginPage() {
                 </p>
                 <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-left">
                   <p className="text-sm text-slate-700 mb-2">
-                    <strong>What's next?</strong>
+                    <strong>What&apos;s next?</strong>
                   </p>
                   <ul className="text-sm text-slate-600 space-y-1 list-disc list-inside">
                     <li>Admin review typically takes 24-48 hours</li>
-                    <li>You'll receive an email once approved</li>
+                    <li>You&apos;ll receive an email once approved</li>
                     <li>Check your spam folder for updates</li>
                   </ul>
                 </div>
@@ -281,7 +281,7 @@ export default function LoginPage() {
               <div>
                 <p className="font-bold text-slate-900 mb-2">Need Help?</p>
                 <p className="text-sm text-slate-600">
-                  If you're a new student, please register first. 
+                  If you&apos;re a new student, please register first. 
                   Once your registration is approved by admin, you can verify your details and book exam slots.
                 </p>
               </div>

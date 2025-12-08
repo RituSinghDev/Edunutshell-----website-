@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
 
 // Interface for the props of each individual icon.
 interface IconProps {
@@ -15,7 +14,6 @@ export interface FloatingIconsHeroProps {
   title: string;
   subtitle: string;
   ctaText: string;
-  ctaHref: string;
   icons: IconProps[];
 }
 
@@ -96,7 +94,7 @@ const Icon = ({
           rotate: [0, 5, 0, -5, 0],
         }}
         transition={{
-          duration: 5 + Math.random() * 5,
+          duration: 8,
           repeat: Infinity,
           repeatType: 'mirror',
           ease: 'easeInOut',
@@ -111,7 +109,7 @@ const Icon = ({
 const FloatingIconsHero = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & FloatingIconsHeroProps
->(({ className, title, subtitle, ctaText, ctaHref, icons, ...props }, ref) => {
+>(({ className, title, subtitle, ctaText, icons, ...props }, ref) => {
   // Refs to track the raw mouse position
   const mouseX = React.useRef(0);
   const mouseY = React.useRef(0);
@@ -151,9 +149,9 @@ const FloatingIconsHero = React.forwardRef<
         </h1>
         <p className="text-base md:text-xl text-gray-300 mb-6 md:mb-8">{subtitle}</p>
         <div className="inline-block">
-          <Button className="bg-white hover:bg-gray-100 text-gray-900 px-6 py-4 md:px-8 md:py-6 text-base md:text-lg font-semibold">
+          <button className="bg-white hover:bg-gray-100 text-gray-900 px-6 py-4 md:px-8 md:py-6 text-base md:text-lg font-semibold rounded-lg transition-colors">
             {ctaText}
-          </Button>
+          </button>
         </div>
       </div>
     </section>
